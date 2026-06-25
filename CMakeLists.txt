@@ -17,10 +17,25 @@ include(CMakePackageConfigHelpers)
 # Downstream repos get these via find_package(Code4hep REQUIRED).
 include("${CMAKE_SOURCE_DIR}/cmake/Code4hepBuildFunctions.cmake")
 
+# Register Code4hep itself so that DEPS like Code4hep/PodioUtilities resolve
+# correctly: in-tree to bare PodioUtilities, installed to Code4hep::PodioUtilities.
+c4h_register_upstream(Code4hep)
+
+# pybind11 must be found before stitched because StitchedTargets.cmake
+# references pybind11::pybind11 but Stitched's config does not call
+# find_dependency(pybind11) itself.
+find_package(pybind11 REQUIRED)
+c4h_backfill_ext_includes(PACKAGE pybind11)
+
 # Stitched is the mandatory upstream framework.
 # Its targets (Stitched::FWCore_*, etc.) are needed for DEPS shorthand resolution.
 find_package(Stitched REQUIRED)
 c4h_register_upstream(Stitched)
+c4h_backfill_ext_includes(PACKAGE stitched)
+
+# do this manually before other packages interfere with FindPython
+find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
+set_property(GLOBAL PROPERTY "C4H_EXT_FOUND_Python3" TRUE)
 
 # Optional clang-tidy — enable with: cmake -DC4H_ENABLE_TIDY=ON
 option(C4H_ENABLE_TIDY "Enable clang-tidy for all targets" OFF)
