@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------//
-//! \file Code4hep/Generators/interface/MCParticlesToG4.h
+//! \file Code4hep/Generators/MCParticlesToG4.h
 //---------------------------------------------------------------------------//
 #ifndef Code4hep_Generators_MCParticlesToG4_h
 #define Code4hep_Generators_MCParticlesToG4_h

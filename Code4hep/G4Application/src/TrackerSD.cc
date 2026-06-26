@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------//
 //! \file Code4hep/G4Application/src/TrackerSD.cc
 //---------------------------------------------------------------------------//
-#include "Code4hep/G4Application/interface/TrackerSD.h"
+#include "Code4hep/G4Application/TrackerSD.h"
 
 #include "G4HCofThisEvent.hh"
 #include "G4Step.hh"

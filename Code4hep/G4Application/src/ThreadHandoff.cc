@@ -7,7 +7,7 @@
  * Original Author:  Christopher Jones
  *         Created:  Mon, 16 Aug 2021 13:51:53 GMT
  */
-#include "Code4hep/G4Application/interface/ThreadHandoff.h"
+#include "Code4hep/G4Application/ThreadHandoff.h"
 #include "FWCore/Utilities/interface/Exception.h"
 
 #include <array>

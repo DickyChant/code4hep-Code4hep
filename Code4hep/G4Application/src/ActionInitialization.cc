@@ -1,11 +1,11 @@
 //---------------------------------------------------------------------------//
 //! \file Code4hep/G4Application/src/ActionInitialization.cc
 //---------------------------------------------------------------------------//
-#include "Code4hep/G4Application/interface/ActionInitialization.h"
-#include "Code4hep/G4Application/interface/EventAction.h"
-#include "Code4hep/G4Application/interface/PrimaryGeneratorAction.h"
-#include "Code4hep/G4Application/interface/RunAction.h"
-#include "Code4hep/G4Application/interface/SteppingAction.h"
+#include "Code4hep/G4Application/ActionInitialization.h"
+#include "Code4hep/G4Application/EventAction.h"
+#include "Code4hep/G4Application/PrimaryGeneratorAction.h"
+#include "Code4hep/G4Application/RunAction.h"
+#include "Code4hep/G4Application/SteppingAction.h"
 
 namespace c4h
 {

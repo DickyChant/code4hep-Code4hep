@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------//
-//! \file Code4hep/G4Application/interface/SteppingAction.h
+//! \file Code4hep/G4Application/SteppingAction.h
 //---------------------------------------------------------------------------//
 #ifndef Code4hep_G4Application_SteppingAction_h
 #define Code4hep_G4Application_SteppingAction_h

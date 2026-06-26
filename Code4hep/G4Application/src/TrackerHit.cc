@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------//
 //! \file Code4hep/G4Application/src/TrackerHit.cc
 //---------------------------------------------------------------------------//
-#include "Code4hep/G4Application/interface/TrackerHit.h"
+#include "Code4hep/G4Application/TrackerHit.h"
 
 namespace c4h
 {

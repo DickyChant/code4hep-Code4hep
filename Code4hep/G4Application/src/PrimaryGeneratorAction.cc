@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------//
 //! \file Code4hep/G4Application/src/PrimaryGeneratorAction.cc
 //---------------------------------------------------------------------------//
-#include "Code4hep/G4Application/interface/PrimaryGeneratorAction.h"
+#include "Code4hep/G4Application/PrimaryGeneratorAction.h"
 
 namespace c4h
 {

@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------//
-//! \file Code4hep/G4Application/interface/ThreadHandoff.h
+//! \file Code4hep/G4Application/ThreadHandoff.h
 //---------------------------------------------------------------------------//
 #ifndef SimG4Core_Application_ThreadHandoff_h
 #define SimG4Core_Application_ThreadHandoff_h

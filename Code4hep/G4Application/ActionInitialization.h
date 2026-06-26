@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------//
-//! \file Code4hep/G4Application/interface/ActionInitialization.h
+//! \file Code4hep/G4Application/ActionInitialization.h
 //---------------------------------------------------------------------------//
 #ifndef Code4hep_G4Application_ActionInitialization_h
 #define Code4hep_G4Application_ActionInitialization_h

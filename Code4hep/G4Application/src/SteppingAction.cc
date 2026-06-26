@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------//
 //! \file Code4hep/G4Application/src/SteppingAction.cc
 //---------------------------------------------------------------------------//
-#include "Code4hep/G4Application/interface/SteppingAction.h"
-#include "Code4hep/G4Application/interface/EventAction.h"
+#include "Code4hep/G4Application/SteppingAction.h"
+#include "Code4hep/G4Application/EventAction.h"
 
 #include "G4Step.hh"
 

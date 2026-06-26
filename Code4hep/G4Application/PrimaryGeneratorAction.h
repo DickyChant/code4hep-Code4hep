@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------//
-//! \file Code4hep/G4Application/interface/PrimaryGeneratorAction.h
+//! \file Code4hep/G4Application/PrimaryGeneratorAction.h
 //---------------------------------------------------------------------------//
 #ifndef Code4hep_G4Application_PrimaryGeneratorAction_h
 #define Code4hep_G4Application_PrimaryGeneratorAction_h

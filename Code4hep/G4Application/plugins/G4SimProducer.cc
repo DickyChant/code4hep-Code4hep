@@ -12,10 +12,10 @@
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "FWCore/ServiceRegistry/interface/ServiceRegistry.h"
 
-#include "Code4hep/Generators/interface/MCParticlesToG4.h"
-#include "Code4hep/G4Application/interface/ThreadHandoff.h"
-#include "Code4hep/G4Application/interface/G4MasterInterface.h"
-#include "Code4hep/G4Application/interface/G4WorkerInterface.h"
+#include "Code4hep/Generators/MCParticlesToG4.h"
+#include "Code4hep/G4Application/ThreadHandoff.h"
+#include "Code4hep/G4Application/G4MasterInterface.h"
+#include "Code4hep/G4Application/G4WorkerInterface.h"
 
 #include "G4Event.hh"
 #include <edm4hep/MCParticleCollection.h>

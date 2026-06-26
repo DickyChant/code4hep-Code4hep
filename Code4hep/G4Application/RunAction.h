@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------//
-//! \file Code4hep/G4Application/interface/RunAction.h
+//! \file Code4hep/G4Application/RunAction.h
 //---------------------------------------------------------------------------//
 #ifndef Code4hep_G4Application_RunAction_h
 #define Code4hep_G4Application_RunAction_h

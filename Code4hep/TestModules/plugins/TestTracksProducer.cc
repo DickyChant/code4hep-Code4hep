@@ -32,7 +32,7 @@
 
 #include "edm4hep/TrackCollection.h"
 
-#include "Code4hep/PodioUtilities/interface/setCollectionID.h"
+#include "Code4hep/PodioUtilities/setCollectionID.h"
 
 //
 // class declaration

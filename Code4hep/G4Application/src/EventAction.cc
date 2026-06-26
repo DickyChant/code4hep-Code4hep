@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------//
 //! \file Code4hep/G4Application/src/EventAction.cc
 //---------------------------------------------------------------------------//
-#include "Code4hep/G4Application/interface/EventAction.h"
-#include "Code4hep/G4Application/interface/RunAction.h"
+#include "Code4hep/G4Application/EventAction.h"
+#include "Code4hep/G4Application/RunAction.h"
 
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 

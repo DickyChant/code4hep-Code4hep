@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------//
 //! \file Code4hep/G4Application/src/G4WorkerInterface.cc
 //---------------------------------------------------------------------------//
-#include "Code4hep/G4Application/interface/G4WorkerInterface.h"
+#include "Code4hep/G4Application/G4WorkerInterface.h"
 
 #include "FWCore/Utilities/interface/Exception.h"
 

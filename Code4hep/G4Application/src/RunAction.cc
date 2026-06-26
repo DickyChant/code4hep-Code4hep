@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------//
 //! \file Code4hep/G4Application/src/RunAction.cc
 //---------------------------------------------------------------------------//
-#include "Code4hep/G4Application/interface/RunAction.h"
+#include "Code4hep/G4Application/RunAction.h"
 
 #include "G4Run.hh"
 

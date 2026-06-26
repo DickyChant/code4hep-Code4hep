@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------//
 //! \file Code4hep/G4Application/src/CalorimeterHit.cc
 //---------------------------------------------------------------------------//
-#include "Code4hep/G4Application/interface/CalorimeterHit.h"
+#include "Code4hep/G4Application/CalorimeterHit.h"
 
 namespace c4h
 {

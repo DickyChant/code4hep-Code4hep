@@ -1,9 +1,9 @@
 //---------------------------------------------------------------------------//
 //! \file Code4hep/G4Application/src/G4MasterInterface.cc
 //---------------------------------------------------------------------------//
-#include "Code4hep/G4Application/interface/G4MasterInterface.h"
-#include "Code4hep/G4Application/interface/ActionInitialization.h"
-#include "Code4hep/G4Application/interface/DetectorConstruction.h"
+#include "Code4hep/G4Application/G4MasterInterface.h"
+#include "Code4hep/G4Application/ActionInitialization.h"
+#include "Code4hep/G4Application/DetectorConstruction.h"
 
 #include "FWCore/Utilities/interface/Exception.h"
 

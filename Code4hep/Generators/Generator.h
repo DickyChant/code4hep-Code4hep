@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------//
-//! \file Code4hep/Generators/interface/Generator.h
+//! \file Code4hep/Generators/Generator.h
 //---------------------------------------------------------------------------//
 #ifndef Code4hep_Generators_Generator_h
 #define Code4hep_Generators_Generator_h

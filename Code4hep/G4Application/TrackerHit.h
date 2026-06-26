@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------//
-//! \file Code4hep/G4Application/interface/TrackerHit.h
+//! \file Code4hep/G4Application/TrackerHit.h
 //---------------------------------------------------------------------------//
 #ifndef Code4hep_G4Application_TrackerHit_h
 #define Code4hep_G4Application_TrackerHit_h

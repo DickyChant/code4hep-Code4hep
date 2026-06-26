@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------//
 //! \file Code4hep/G4Application/src/CalorimeterSD.cc
 //---------------------------------------------------------------------------//
-#include "Code4hep/G4Application/interface/CalorimeterSD.h"
+#include "Code4hep/G4Application/CalorimeterSD.h"
 
 #include "G4HCofThisEvent.hh"
 #include "G4Step.hh"

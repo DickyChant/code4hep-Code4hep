@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------//
 //! \file Code4hep/Generators/src/HepMC3Generator.cc
 //---------------------------------------------------------------------------//
-#include "Code4hep/Generators/interface/HepMC3Generator.h"
+#include "Code4hep/Generators/HepMC3Generator.h"
 
 #include "G4ParticleTable.hh"
 #include <CLHEP/Units/SystemOfUnits.h>

@@ -1,10 +1,10 @@
 //---------------------------------------------------------------------------//
-//! \file Code4hep/G4Application/interface/CalorimeterSD.h
+//! \file Code4hep/G4Application/CalorimeterSD.h
 //---------------------------------------------------------------------------//
 #ifndef Code4hep_G4Application_CalorimeterSD_h
 #define Code4hep_G4Application_CalorimeterSD_h
 
-#include "Code4hep/G4Application/interface/CalorimeterHit.h"
+#include "Code4hep/G4Application/CalorimeterHit.h"
 
 #include "G4VSensitiveDetector.hh"
 

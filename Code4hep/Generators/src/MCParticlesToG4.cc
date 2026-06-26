@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------//
 //! \file Code4hep/Generators/src/MCParticlesToG4.cc
 //---------------------------------------------------------------------------//
-#include "Code4hep/Generators/interface/MCParticlesToG4.h"
+#include "Code4hep/Generators/MCParticlesToG4.h"
 
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 

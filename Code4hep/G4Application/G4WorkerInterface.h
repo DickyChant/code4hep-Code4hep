@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------//
-//! \file Code4hep/G4Application/interface/G4WorkerInterface.h
+//! \file Code4hep/G4Application/G4WorkerInterface.h
 //---------------------------------------------------------------------------//
 #ifndef Code4hep_G4Application_G4WorkerInterface_h
 #define Code4hep_G4Application_G4WorkerInterface_h

@@ -1,9 +1,9 @@
 //---------------------------------------------------------------------------//
 //! \file Code4hep/G4Application/src/DetectorConstruction.cc
 //---------------------------------------------------------------------------//
-#include "Code4hep/G4Application/interface/DetectorConstruction.h"
-#include "Code4hep/G4Application/interface/CalorimeterSD.h"
-#include "Code4hep/G4Application/interface/TrackerSD.h"
+#include "Code4hep/G4Application/DetectorConstruction.h"
+#include "Code4hep/G4Application/CalorimeterSD.h"
+#include "Code4hep/G4Application/TrackerSD.h"
 
 #include "G4VPhysicalVolume.hh"
 #include "G4GDMLParser.hh"

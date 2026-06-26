@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------//
-//! \file Code4hep/G4Application/interface/CalorimeterHit.h
+//! \file Code4hep/G4Application/CalorimeterHit.h
 //---------------------------------------------------------------------------//
 #ifndef Code4hep_G4Application_CalorimeterHit_h
 #define Code4hep_G4Application_CalorimeterHit_h

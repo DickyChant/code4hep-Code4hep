@@ -1,10 +1,10 @@
 //---------------------------------------------------------------------------//
-//! \file Code4hep/G4Application/interface/TrackerSD.h
+//! \file Code4hep/G4Application/TrackerSD.h
 //---------------------------------------------------------------------------//
 #ifndef Code4hep_G4Application_TrackerSD_h
 #define Code4hep_G4Application_TrackerSD_h
 
-#include "Code4hep/G4Application/interface/TrackerHit.h"
+#include "Code4hep/G4Application/TrackerHit.h"
 
 #include "G4VSensitiveDetector.hh"
 

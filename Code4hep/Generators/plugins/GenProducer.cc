@@ -11,9 +11,9 @@
 #include "FWCore/ServiceRegistry/interface/Service.h"
 #include "FWCore/Utilities/interface/Exception.h"
 
-#include "Code4hep/Generators/interface/Generator.h"
-#include "Code4hep/Generators/interface/HepMC3Generator.h"
-#include "Code4hep/Generators/interface/Pythia8Generator.h"
+#include "Code4hep/Generators/Generator.h"
+#include "Code4hep/Generators/HepMC3Generator.h"
+#include "Code4hep/Generators/Pythia8Generator.h"
 
 #include "CLHEP/Random/RandFlat.h"
 #include <edm4hep/MCParticleCollection.h>

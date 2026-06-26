@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------//
 //! \file Code4hep/Generators/src/Pythia8Generator.cc
 //---------------------------------------------------------------------------//
-#include "Code4hep/Generators/interface/Pythia8Generator.h"
+#include "Code4hep/Generators/Pythia8Generator.h"
 
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 
