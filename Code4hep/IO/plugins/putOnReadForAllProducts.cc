@@ -18,7 +18,7 @@ namespace c4h {
   void putOnReadForAllProducts(podio::Frame const& podioFrame,
                                edm::ProductRegistry const& productRegistry,
                                edm::EventPrincipal& eventPrincipal) {
-    auto factory = code4hep::CollectionWrapperConverterBaseFactory::get();
+    auto factory = c4h::CollectionWrapperConverterBaseFactory::get();
 
     // It is important that are two iterations, one to get the
     // collections into the Frame and then a second to move them

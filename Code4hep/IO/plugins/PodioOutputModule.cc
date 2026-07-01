@@ -52,7 +52,7 @@ namespace c4h {
     try {
       auto const& typeName = typeNameConversion(product.fullClassName());
 
-      auto factory = code4hep::CollectionWrapperConverterBaseFactory::get();
+      auto factory = c4h::CollectionWrapperConverterBaseFactory::get();
       (void)factory->create(typeName);
     } catch (cms::Exception const&) {
       edm::LogWarning("UnstorableType") << "The type '" << product.fullClassName()
@@ -64,7 +64,7 @@ namespace c4h {
   }
 
   void PodioOutputModule::write(edm::EventForOutput const& e) {
-    auto factory = code4hep::CollectionWrapperConverterBaseFactory::get();
+    auto factory = c4h::CollectionWrapperConverterBaseFactory::get();
 
     bool haveEventHeader = false;
     podio::Frame frame;

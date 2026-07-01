@@ -3,8 +3,8 @@
 #include "FWCore/PluginManager/interface/PluginFactory.h"
 #include "Code4hep/PodioUtilities/CollectionWrapperConverterBase.h"
 
-namespace code4hep {
+namespace c4h {
   using CollectionWrapperConverterBaseFactory = edmplugin::PluginFactory<CollectionWrapperConverterBase*()>;
-}  // namespace code4hep
+}  // namespace c4h
 
 #endif

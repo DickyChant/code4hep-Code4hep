@@ -4,7 +4,7 @@
 #include "podio/CollectionBase.h"
 #include <cassert>
 
-namespace code4hep {
+namespace c4h {
   namespace {
     void fromVectorToVector(void const* iFrom,
                             void* iTo,
@@ -71,4 +71,4 @@ namespace code4hep {
         << "The collection '" << iCollection << "' contains type '" << iContainedType << "'. The type '"
         << iContainedType << "' needs to be registered using the C4H_CONTAINED_CLASS macro.";
   }
-}  // namespace code4hep
+}  // namespace c4h

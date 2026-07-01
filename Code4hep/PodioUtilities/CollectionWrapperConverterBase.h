@@ -12,7 +12,7 @@ namespace edm {
   class WrapperBase;
 }
 
-namespace code4hep {
+namespace c4h {
   class CollectionWrapperConverterBase {
   public:
     virtual ~CollectionWrapperConverterBase() = default;
@@ -37,6 +37,6 @@ namespace code4hep {
   private:
     virtual FromVectorToVector copier(std::string_view) const = 0;
   };
-}  // namespace code4hep
+}  // namespace c4h
 
 #endif

@@ -15,7 +15,7 @@ namespace podio {
   class CollectionBase;
 }
 
-namespace code4hep {
+namespace c4h {
   template <typename T>
   class CollectionWrapperConverter : public CollectionWrapperConverterBase {
   public:
@@ -62,13 +62,13 @@ namespace code4hep {
       AddEntry(std::string_view iName) { CollectionWrapperConverter<C>::copiers().emplace(iName, copyVector<T>); }
     };
   }  // namespace cwc
-}  // namespace code4hep
+}  // namespace c4h
 
 #define C4H_CONTAINED_CLASS_SYM(x, y) C4H_CONTAINED_CLASS_SYM2(x, y)
 #define C4H_CONTAINED_CLASS_SYM2(x, y) x##y
 
 #define C4H_CONTAINED_CLASS_NAMED(collection, type, name) \
-  static const code4hep::cwc::AddEntry<collection, type> C4H_CONTAINED_CLASS_SYM(s_entry, __LINE__)(name)
+  static const c4h::cwc::AddEntry<collection, type> C4H_CONTAINED_CLASS_SYM(s_entry, __LINE__)(name)
 
 #define C4H_CONTAINED_CLASS(collection, type) C4H_CONTAINED_CLASS_NAMED(collection, type, #type)
 

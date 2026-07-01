@@ -59,7 +59,7 @@ int main(int argc, char** argv) {
   try {
     edmplugin::PluginManager::configure(edmplugin::standard::config());
 
-    auto factory = code4hep::CollectionWrapperConverterBaseFactory::get();
+    auto factory = c4h::CollectionWrapperConverterBaseFactory::get();
 
     auto converter = factory->create(collection);
 

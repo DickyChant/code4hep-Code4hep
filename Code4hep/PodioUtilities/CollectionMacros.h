@@ -5,7 +5,7 @@
 #include "Code4hep/PodioUtilities/CollectionWrapperConverter.h"
 
 #define C4H_COLLECTION_NAMED(type, name) \
-  DEFINE_EDM_PLUGIN(code4hep::CollectionWrapperConverterBaseFactory, code4hep::CollectionWrapperConverter<type>, name)
+  DEFINE_EDM_PLUGIN(c4h::CollectionWrapperConverterBaseFactory, c4h::CollectionWrapperConverter<type>, name)
 
 #define C4H_COLLECTION(type) C4H_COLLECTION_NAMED(type, #type)
 

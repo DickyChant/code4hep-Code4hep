@@ -29,7 +29,7 @@ namespace c4h {
     edm::TypeID typeID;
     bool const produced = false;
 
-    auto factory = code4hep::CollectionWrapperConverterBaseFactory::get();
+    auto factory = c4h::CollectionWrapperConverterBaseFactory::get();
 
     // Iterate over all collections in the Podio Frame and
     // add a ProductDescription for each one to the ProductRegistry

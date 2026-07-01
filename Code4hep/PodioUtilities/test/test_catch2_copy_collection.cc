@@ -13,7 +13,7 @@ namespace {
 
   template <typename T>
   std::unique_ptr<T> copyCollection(T& iCollection) {
-    code4hep::CollectionWrapperConverter<edm4hep::TrackCollection> converter;
+    c4h::CollectionWrapperConverter<edm4hep::TrackCollection> converter;
     auto base = converter.copy(iCollection);
     assert(nullptr != dynamic_cast<T*>(base.get()));
     return std::unique_ptr<T>(static_cast<T*>(base.release()));
