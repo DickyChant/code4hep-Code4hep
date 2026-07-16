@@ -1,6 +1,7 @@
 <use name="FWCore/Framework"/>
 <use name="FWCore/ParameterSet"/>
 <use name="FWCore/PluginManager"/>
+<use name="FWCore/Utilities"/>
 <use name="podio"/>
 <use name="edm4hep"/>
 <use name="python3"/>
