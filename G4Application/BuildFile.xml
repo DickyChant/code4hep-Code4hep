@@ -1,0 +1,9 @@
+<use name="FWCore/Framework"/>
+<use name="FWCore/ParameterSet"/>
+<use name="clhep"/>
+<use name="xerces-c"/>
+<use name="geant4core"/>
+<use name="hepmc3"/>
+<export>
+  <lib name="1"/>
+</export>
