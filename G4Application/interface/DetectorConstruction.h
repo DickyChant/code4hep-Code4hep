@@ -21,15 +21,15 @@ namespace c4h
  */
 class DetectorConstruction : public G4VUserDetectorConstruction
 {
-  public:
-    DetectorConstruction(G4String gdmlName);
-    virtual ~DetectorConstruction();
+public:
+  DetectorConstruction(G4String gdmlName);
+  virtual ~DetectorConstruction();
 
-    G4VPhysicalVolume* Construct() final;
-    void ConstructSDandField() final;
+  G4VPhysicalVolume* Construct() final;
+  void ConstructSDandField() final;
 
-  private:
-    std::unique_ptr<G4GDMLParser> parser_;
+private:
+  std::unique_ptr<G4GDMLParser> parser_;
 
   // Static data members
   static G4ThreadLocal G4GlobalMagFieldMessenger* fieldMessenger_;
