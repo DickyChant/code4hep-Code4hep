@@ -5,6 +5,8 @@
 #include "Code4hep/G4Application/interface/ActionInitialization.h"
 #include "Code4hep/G4Application/interface/DetectorConstruction.h"
 
+#include "FWCore/Utilities/interface/Exception.h"
+
 #include "G4MTRunManager.hh"
 #include "G4MTRunManagerKernel.hh"
 #include "G4PhysicalVolumeStore.hh"
@@ -105,13 +107,13 @@ G4MasterInterface::G4MasterInterface(edm::ParameterSet const& p)
         // Stop the master thread started - breaking out of state loop
         if (isG4Alive)
 	{
-          throw std::runtime_error("Geant4 is still alive");
-        }
+          throw cms::Exception("LogicError") << "Geant4 is still alive";
+	}
 	break;
       }
       else
       {
-        throw std::runtime_error("Illegal master thread state");
+        throw cms::Exception("LogicError") << "Illegal master thread state";
       }
     }
 

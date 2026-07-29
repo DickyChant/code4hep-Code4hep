@@ -3,6 +3,8 @@
 //---------------------------------------------------------------------------//
 #include "Code4hep/G4Application/interface/G4WorkerInterface.h"
 
+#include "FWCore/Utilities/interface/Exception.h"
+
 #include "G4Event.hh"
 #include "G4UserRunAction.hh"
 #include "G4Run.hh"
@@ -105,7 +107,8 @@ void G4WorkerInterface::initializeG4(G4MTRunManager* masterRM)
   }
   else
   {
-    throw std::runtime_error("Illegal G4WorkerRunManagerKernel state");
+    throw cms::Exception("Configuration")
+      << "Illegal G4WorkerRunManagerKernel state";
   }
 
   G4StateManager::GetStateManager()->SetNewState(G4State_GeomClosed);
@@ -114,14 +117,16 @@ void G4WorkerInterface::initializeG4(G4MTRunManager* masterRM)
 
 G4Event* G4WorkerInterface::produce(G4Event* g4evt)
 {
-  if (g4evt == nullptr) {
-    throw std::runtime_error("produce called with null G4Event");
+  if (g4evt == nullptr)
+  {
+    throw cms::Exception("LogicError") << "produce called with null G4Event";
   }
 
   auto kernel = workerRM_->GetWorkerRunManagerKernel();
   if (!kernel)
   {
-    throw std::runtime_error("WorkerRunManagerKernel not available");
+    throw cms::Exception("Configuration")
+      << "WorkerRunManagerKernel not available";
   }
 
   kernel->GetEventManager()->ProcessOneEvent(g4evt);
