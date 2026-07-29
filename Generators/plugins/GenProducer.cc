@@ -22,7 +22,7 @@ using namespace edm;
 
 //---------------------------------------------------------------------------//
 /*! 
- * Stream-based Code4hep producer that drives an edm4hep event generation.
+ * Code4hep producer that drives an edm4hep MC event generation.
  */
 class GenProducer : public one::EDProducer<one::WatchRuns, EndRunProducer>
 {
