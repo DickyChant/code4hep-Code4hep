@@ -21,8 +21,8 @@
 namespace c4h
 {
 G4MasterInterface::G4MasterInterface(edm::ParameterSet const& p)
-  : detectorParam_(p.getParameter<edm::ParameterSet>("Detector"))
-  , physicsParam_(p.getParameter<edm::ParameterSet>("Physics"))
+  : gdmlFile_(p.getParameter<edm::ParameterSet>("Detector").getParameter<std::string>("gdml"))
+  , physName_(p.getParameter<edm::ParameterSet>("Physics").getParameter<std::string>("type"))
 {
   // Lock the mutex
   std::unique_lock<std::mutex> lk(threadMutex_);
@@ -54,22 +54,19 @@ G4MasterInterface::G4MasterInterface(edm::ParameterSet const& p)
         // Set mandatory Geant4 user initialization classes
 
 	// Add a pysics list
-        auto physListName = physicsParam_.getParameter<std::string>("type");
-
         G4PhysListFactory factory;
         G4VModularPhysicsList* physics
-	  = factory.GetReferencePhysList(physListName);
+	  = factory.GetReferencePhysList(physName_);
 
         if (!physics)
         {
            G4Exception("main", "InvalidPhysicsList", FatalException,
-                        ("Unknown physics list: " + physListName).c_str());
+                        ("Unknown physics list: " + physName_).c_str());
         }
         runManagerMaster_->SetUserInitialization(physics);
 
 	// Add a user detector construction
-        auto gdmlFile = detectorParam_.getParameter<std::string>("gdml");
-        auto det = std::make_unique<DetectorConstruction>(gdmlFile);
+        auto det = std::make_unique<DetectorConstruction>(gdmlFile_);
 	
         runManagerMaster_->SetUserInitialization(det.release());
         runManagerMaster_->SetUserInitialization(new ActionInitialization());

@@ -6,10 +6,11 @@
 
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 
-#include <memory>
-#include <thread>
-#include <mutex>
 #include <condition_variable>
+#include <memory>
+#include <mutex>
+#include <string>
+#include <thread>
 
 class G4MTRunManager;
 
@@ -64,8 +65,8 @@ private:
   mutable bool firstRun_ = true;
   mutable bool stopped_ = false;
 
-  edm::ParameterSet detectorParam_{""};
-  edm::ParameterSet physicsParam_{""};
+  std::string const gdmlFile_;
+  std::string const physName_;
 };
 
 //---------------------------------------------------------------------------//
