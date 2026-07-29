@@ -1,7 +1,8 @@
 //---------------------------------------------------------------------------//
 //! \file Code4hep/G4Application/interface/ActionInitialization.h
 //---------------------------------------------------------------------------//
-#pragma once
+#ifndef Code4hep_G4Application_ActionInitialization_h
+#define Code4hep_G4Application_ActionInitialization_h
 
 #include "G4VUserActionInitialization.hh"
 
@@ -23,3 +24,4 @@ class ActionInitialization : public G4VUserActionInitialization
 
 //---------------------------------------------------------------------------//
 }  // namespace c4h
+#endif

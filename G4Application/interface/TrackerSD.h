@@ -1,7 +1,8 @@
 //---------------------------------------------------------------------------//
 //! \file Code4hep/G4Application/interface/TrackerSD.h
 //---------------------------------------------------------------------------//
-#pragma once
+#ifndef Code4hep_G4Application_TrackerSD_h
+#define Code4hep_G4Application_TrackerSD_h
 
 #include "Code4hep/G4Application/interface/TrackerHit.h"
 
@@ -32,3 +33,4 @@ private:
 
 //---------------------------------------------------------------------------//
 }  // namespace c4h
+#endif

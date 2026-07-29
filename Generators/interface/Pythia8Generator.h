@@ -1,7 +1,8 @@
 //---------------------------------------------------------------------------//
 //! \file Code4hep/Generators/interface/Pythia8Generator.h
 //---------------------------------------------------------------------------//
-#pragma once
+#ifndef Code4hep_Generators_Pythia8Generator_h
+#define Code4hep_Generators_Pythia8Generator_h
 
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "Code4hep/Generators/interface/Generator.h"
@@ -35,3 +36,4 @@ private:
 
 //---------------------------------------------------------------------------//
 } // namespace c4h  
+#endif

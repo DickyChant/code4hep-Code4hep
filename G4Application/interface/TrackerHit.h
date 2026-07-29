@@ -1,7 +1,8 @@
 //---------------------------------------------------------------------------//
 //! \file Code4hep/G4Application/interface/TrackerHit.h
 //---------------------------------------------------------------------------//
-#pragma once
+#ifndef Code4hep_G4Application_TrackerHit_h
+#define Code4hep_G4Application_TrackerHit_h
 
 #include "G4VHit.hh"
 #include "G4THitsCollection.hh"
@@ -71,3 +72,4 @@ inline void TrackerHit::operator delete(void* hit)
 
 //---------------------------------------------------------------------------//
 }  // namespace c4h      
+#endif

@@ -1,7 +1,8 @@
 //---------------------------------------------------------------------------//
 //! \file Code4hep/G4Application/interface/G4MasterInterface.h
 //---------------------------------------------------------------------------//
-#pragma once
+#ifndef Code4hep_G4Application_G4MasterInterface_h
+#define Code4hep_G4Application_G4MasterInterface_h
 
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 
@@ -21,7 +22,8 @@ namespace c4h
  *
  * \note This class follows the same workflow as OscarMTMasterThread in CMSSW.
  */
-class G4MasterInterface  {
+class G4MasterInterface
+{
 public:
   explicit G4MasterInterface(edm::ParameterSet const& p);
   ~G4MasterInterface();
@@ -68,3 +70,4 @@ private:
 
 //---------------------------------------------------------------------------//
 }  // namespace c4h
+#endif

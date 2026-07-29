@@ -1,7 +1,8 @@
 //---------------------------------------------------------------------------//
 //! \file Code4hep/G4Application/interface/DetectorConstruction.h
 //---------------------------------------------------------------------------//
-#pragma once
+#ifndef Code4hep_G4Application_DetectorConstruction_h
+#define Code4hep_G4Application_DetectorConstruction_h
 
 #include "G4VUserDetectorConstruction.hh"
 
@@ -36,3 +37,4 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 
 //---------------------------------------------------------------------------//
 }  // namespace c4h
+#endif

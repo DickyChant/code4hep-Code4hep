@@ -1,7 +1,8 @@
 //---------------------------------------------------------------------------//
-//! \file Code4hep/Generator3/interface/MCParticlesToG4.h
+//! \file Code4hep/Generators/interface/MCParticlesToG4.h
 //---------------------------------------------------------------------------//
-#pragma once
+#ifndef Code4hep_Generators_MCParticlesToG4_h
+#define Code4hep_Generators_MCParticlesToG4_h
 
 #include <edm4hep/MCParticleCollection.h>
 
@@ -21,3 +22,4 @@ MCParticlesToG4(const edm4hep::MCParticleCollection& p, int eventID = 0);
 
 //---------------------------------------------------------------------------//
 }  // namespace c4h
+#endif

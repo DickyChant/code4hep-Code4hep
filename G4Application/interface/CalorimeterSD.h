@@ -1,7 +1,8 @@
 //---------------------------------------------------------------------------//
 //! \file Code4hep/G4Application/interface/CalorimeterSD.h
 //---------------------------------------------------------------------------//
-#pragma once
+#ifndef Code4hep_G4Application_CalorimeterSD_h
+#define Code4hep_G4Application_CalorimeterSD_h
 
 #include "Code4hep/G4Application/interface/CalorimeterHit.h"
 
@@ -32,3 +33,4 @@ class CalorimeterSD : public G4VSensitiveDetector
 
 //---------------------------------------------------------------------------//
 }  // namespace c4h   
+#endif

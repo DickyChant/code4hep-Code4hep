@@ -1,7 +1,8 @@
 //---------------------------------------------------------------------------//
 //! \file Code4hep/G4Application/interface/RunAction.h
 //---------------------------------------------------------------------------//
-#pragma once
+#ifndef Code4hep_G4Application_RunAction_h
+#define Code4hep_G4Application_RunAction_h
 
 #include "G4UserRunAction.hh"
 #include "globals.hh"
@@ -33,3 +34,4 @@ class RunAction : public G4UserRunAction
 
 //---------------------------------------------------------------------------//
 }  // namespace c4h
+#endif

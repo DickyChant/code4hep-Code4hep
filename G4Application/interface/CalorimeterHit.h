@@ -1,7 +1,8 @@
 //---------------------------------------------------------------------------//
 //! \file Code4hep/G4Application/interface/CalorimeterHit.h
 //---------------------------------------------------------------------------//
-#pragma once
+#ifndef Code4hep_G4Application_CalorimeterHit_h
+#define Code4hep_G4Application_CalorimeterHit_h
 
 #include "G4VHit.hh"
 #include "G4THitsCollection.hh"
@@ -74,3 +75,4 @@ inline void CalorimeterHit::operator delete(void* hit)
 
 //---------------------------------------------------------------------------//
 }  // namespace c4h
+#endif

@@ -1,7 +1,8 @@
 //---------------------------------------------------------------------------//
-//! \file Code4hep/Generator3/interface/MepMC3Generator.h
+//! \file Code4hep/Generators/interface/MepMC3Generator.h
 //---------------------------------------------------------------------------//
-#pragma once
+#ifndef Code4hep_Generators_MepMC3Generator_h
+#define Code4hep_Generators_MepMC3Generator_h
 
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "Code4hep/Generators/interface/Generator.h"
@@ -43,3 +44,4 @@ private:
 
 //---------------------------------------------------------------------------//
 }  // namespace c4h
+#endif

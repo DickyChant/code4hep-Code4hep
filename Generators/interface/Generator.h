@@ -1,7 +1,8 @@
 //---------------------------------------------------------------------------//
-//! \file Code4hep/Generator3/interface/Generator.h
+//! \file Code4hep/Generators/interface/Generator.h
 //---------------------------------------------------------------------------//
-#pragma once
+#ifndef Code4hep_Generators_Generator_h
+#define Code4hep_Generators_Generator_h
 
 #include <edm4hep/MCParticleCollection.h>
 #include "CLHEP/Random/RandFlat.h"
@@ -40,3 +41,4 @@ public:
 
 //---------------------------------------------------------------------------//
 }  // namespace c4h
+#endif

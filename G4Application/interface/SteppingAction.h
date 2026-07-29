@@ -1,7 +1,8 @@
 //---------------------------------------------------------------------------//
 //! \file Code4hep/G4Application/interface/SteppingAction.h
 //---------------------------------------------------------------------------//
-#pragma once
+#ifndef Code4hep_G4Application_SteppingAction_h
+#define Code4hep_G4Application_SteppingAction_h
 
 #include "G4UserSteppingAction.hh"
 
@@ -30,3 +31,4 @@ class SteppingAction : public G4UserSteppingAction
 
 //---------------------------------------------------------------------------//
 }  // namespace c4h
+#endif
