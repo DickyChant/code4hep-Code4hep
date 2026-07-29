@@ -6,30 +6,22 @@
 
 #include "G4VUserPrimaryGeneratorAction.hh"
 
-class G4ParticleGun;
-class G4Event;
-class G4Box;
-
 namespace c4h
 {
 //---------------------------------------------------------------------------//
 /*!
- * The primary generator action class with particle gun.
+ * The primary generator action class.
+ *
+ * This class is used solely to initialize the Geant4 run manager.
  */
 class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 {
-  public:
-    PrimaryGeneratorAction();
-    ~PrimaryGeneratorAction() override;
+public:
+  PrimaryGeneratorAction();
+  ~PrimaryGeneratorAction() override;
 
-    // Method from the base class
-    void GeneratePrimaries(G4Event*) override;
-
-    // Method to access particle gun
-    const G4ParticleGun* GetParticleGun() const { return particleGun_; }
-
-  private:
-    G4ParticleGun* particleGun_ = nullptr;
+  // Method from the base class
+  void GeneratePrimaries(G4Event*) override;
 };
 
 //---------------------------------------------------------------------------//
