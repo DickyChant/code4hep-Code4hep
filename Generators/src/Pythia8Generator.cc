@@ -3,6 +3,8 @@
 //---------------------------------------------------------------------------//
 #include "Code4hep/Generators/interface/Pythia8Generator.h"
 
+#include "FWCore/MessageLogger/interface/MessageLogger.h"
+
 #include <vector>
 
 namespace c4h
@@ -13,12 +15,12 @@ namespace c4h
  */
 Pythia8Generator::Pythia8Generator(const edm::ParameterSet& p)
 {
-  std::vector<std::string> commands =
+  const auto& commands =
       p.getParameter<std::vector<std::string>>("Pythia8Parameters");
 
   for (const auto& cmd : commands)
   {
-    std::cout << "Pythia8Parameters: " << cmd << std::endl;
+    edm::LogVerbatim("Code4hepGenerators") << "Pythia8Parameters: " << cmd;
     pythia_.readString(cmd);
   }
 

@@ -3,6 +3,8 @@
 //---------------------------------------------------------------------------//
 #include "Code4hep/Generators/interface/MCParticlesToG4.h"
 
+#include "FWCore/MessageLogger/interface/MessageLogger.h"
+
 #include "G4Event.hh"
 #include "G4PrimaryParticle.hh"
 #include "G4PrimaryVertex.hh"
@@ -63,7 +65,8 @@ MCParticlesToG4(const edm4hep::MCParticleCollection& mcParticles, int eventID)
 
     if (!definition)
     {
-      std::cout << "Unknown PDG ID: " << pdg << std::endl;
+      edm::LogWarning("Code4hepGenerators")
+	<< "MCParticlesToG4: Unknown PDG ID: " << pdg;
       // TODO: Refactor this loop to use an external decayer
       continue;
     }

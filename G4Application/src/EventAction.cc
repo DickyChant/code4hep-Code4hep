@@ -4,6 +4,8 @@
 #include "Code4hep/G4Application/interface/EventAction.h"
 #include "Code4hep/G4Application/interface/RunAction.h"
 
+#include "FWCore/MessageLogger/interface/MessageLogger.h"
+
 #include "G4Event.hh"
 
 #include <iostream>
@@ -26,8 +28,9 @@ void EventAction::EndOfEventAction(const G4Event* event)
 {
   runAction_->AddEdep(edep_);
 
-  std::cout << "EventAction::EndOfEventAction Event " << event->GetEventID()
-            << ", Total E_dep = " << edep_ << " MeV" << std::endl;
+  edm::LogVerbatim("Code4hepG4Application")
+    << "EventAction::EndOfEventAction Event " << event->GetEventID()
+    << ", Total E_dep = " << edep_ << " MeV";
   
   // Check collection
   auto* hit_cols = event->GetHCofThisEvent();
