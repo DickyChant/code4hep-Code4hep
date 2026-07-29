@@ -146,7 +146,6 @@ void G4SimProducer::produce(edm::Event& e, const edm::EventSetup& es)
   {
     edm::ServiceRegistry::Operate guard{token};
 
-    //    G4int evtid = (G4int)e.id().event();
     G4int evtid = static_cast<G4int>(e.id().event());
     auto const& genEvent = e.get(mcToken_);
     auto g4evt = c4h::MCParticlesToG4(genEvent, evtid);
