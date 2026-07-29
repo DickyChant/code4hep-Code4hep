@@ -80,7 +80,7 @@ G4MasterInterface::G4MasterInterface(edm::ParameterSet const& p)
         runManagerMaster_->Initialize();
         runManagerMaster_->RunInitialization();
 
-	isG4Alive = true;
+        isG4Alive = true;
       }
       else if (masterThreadState_ == ThreadState::EndRun)
       {
