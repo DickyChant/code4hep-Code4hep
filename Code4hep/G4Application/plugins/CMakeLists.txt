@@ -8,7 +8,7 @@ set(_c4h_shared
         FWCore/PluginManager
         Code4hep/Generators
     EXT_DEPS
-        ${Geant4_LIBRARIES}
+        Geant4::Geant4
         Python3::Python
         EDM4HEP::edm4hep
 )

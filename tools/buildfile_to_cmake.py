@@ -106,7 +106,7 @@ SCRAM_TO_CMAKE_TARGETS: dict[str, list[str]] = {
     "catch2":    ["Catch2::Catch2"],
     "dd4hep-core": ["DD4hep::Core"],
     "dd4hep":    ["DD4hep::DDAlign", "DD4hep::DDCond"],
-    "geant4core": ["${Geant4_LIBRARIES}"],
+    "geant4core": ["Geant4::Geant4"],
     "xerces-c": ["XercesC::XercesC"],
     "hepmc3": ["HepMC3::HepMC3"],
     "pythia8": ["Pythia8::Pythia8"],

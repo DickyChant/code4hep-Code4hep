@@ -8,7 +8,7 @@ c4h_add_library(
     EXT_DEPS
         CLHEP::CLHEP
         XercesC::XercesC
-        ${Geant4_LIBRARIES}
+        Geant4::Geant4
         HepMC3::HepMC3
 )
 
