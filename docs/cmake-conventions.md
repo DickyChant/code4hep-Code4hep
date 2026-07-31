@@ -103,10 +103,6 @@ or the convenience equivalent:
 c4h_auto_subdirectories()        # add_subdirectory() for every child with a CMakeLists.txt
 ```
 
-(Earlier versions descended automatically as a side effect of any `c4h_add_*`
-call. That implicit behavior was removed precisely because it was invisible in
-the file; descent is now always written out.)
-
 ## Escape hatches (mix freely)
 
 - **Need PRIVATE deps, extra include dirs, raw `-l` flags, or compile options?**
