@@ -30,7 +30,7 @@
  * via ThreadHandoff to avoid concurrent Geant4 initialization on the wrong
  * thread.
  */
-class G4SimProducer : public edm::stream::EDProducer<edm::GlobalCache<c4h::G4MasterInterface>, edm::RunCache<int>>
+class G4SimProducer : public edm::stream::EDProducer<edm::GlobalCache<c4h::G4MasterInterface>, edm::RunCache<int>, edm::stream::WatchRuns>
 {
 public:
   explicit G4SimProducer(const edm::ParameterSet&, const c4h::G4MasterInterface*);
