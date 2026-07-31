@@ -1,0 +1,11 @@
+<use name="FWCore/Framework"/>
+<use name="FWCore/ParameterSet"/>
+<use name="FWCore/PluginManager"/>
+<use name="Code4hep/Generators"/>
+<use name="geant4core"/>
+<use name="python3" />
+<use name="edm4hep"/>
+<library file="*.cc" name="Code4hepG4ApplicationPlugins">
+  <use name="Code4hep/G4Application"/>
+  <flags EDM_PLUGIN="1"/>
+</library>

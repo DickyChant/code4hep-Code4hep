@@ -1,0 +1,12 @@
+<use name="FWCore/Framework"/>
+<use name="FWCore/ParameterSet"/>
+<use name="clhep"/>
+<use name="edm4hep"/>
+<use name="hepmc3"/>
+<use name="geant4core"/>
+<use name="podio" />
+<use name="python3" />
+<use name="pythia8" />
+<export>
+  <lib name="1"/>
+</export>
