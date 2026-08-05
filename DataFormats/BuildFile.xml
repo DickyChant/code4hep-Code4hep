@@ -1,7 +1,0 @@
-<use name="podio"/>
-<use name="edm4hep"/>
-<use name="FWCore/Common"/>
-<use name="python3"/>
-<export>
-  <lib name="1"/>
-</export>

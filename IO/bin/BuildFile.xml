@@ -1,7 +1,0 @@
-<bin name="podioFileUtil" file="PodioFileUtil.cpp">
-        <use name="boost_program_options"/>
-        <use name="json" />
-        <use name="python3" />
-        <use name="podio" />
-        <use name="edm4hep" />
-</bin>
