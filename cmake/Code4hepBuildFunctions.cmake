@@ -522,7 +522,7 @@ endfunction()
 # directory.
 #
 #   NAME     Test name (required).
-#   COMMAND  Command to run (required). ${LOCALTOP} expands to CMAKE_SOURCE_DIR.
+#   COMMAND  Command to run (required).
 #   DEPS     Internal dependencies whose build directories are prepended to
 #            LD_LIBRARY_PATH so the test finds in-tree libraries at runtime.
 #
@@ -547,15 +547,8 @@ function(c4h_add_test)
         message(FATAL_ERROR "c4h_add_test: COMMAND is required.")
     endif()
 
-    # Substitute ${LOCALTOP} -> ${CMAKE_SOURCE_DIR}
-    set(_cmd)
-    foreach(_tok IN LISTS C4H_TST_COMMAND)
-        string(REPLACE "\${LOCALTOP}" "${CMAKE_SOURCE_DIR}" _tok "${_tok}")
-        list(APPEND _cmd "${_tok}")
-    endforeach()
-
     add_test(NAME "${C4H_TST_NAME}"
-        COMMAND ${_cmd}
+        COMMAND ${C4H_TST_COMMAND}
         WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     )
 
