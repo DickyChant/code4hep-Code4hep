@@ -168,14 +168,10 @@ function(_c4h_resolve_dep DEP OUT_VAR)
             string(TOLOWER "${_up}"              _up_lower)
             string(TOLOWER "${_first_component}" _first_lower)
 
-            # Style A: subsystem-qualified — Upstream::First_Rest or Upstream::upstream_First_Rest
-            # (e.g. FWCore/Utilities → Stitched::stitched_FWCore_Utilities)
+            # Style A: subsystem-qualified — Upstream::First_Rest
+            # (e.g. FWCore/Utilities → Stitched::FWCore_Utilities)
             if(TARGET "${_up}::${_bare}")
                 set(${OUT_VAR} "${_up}::${_bare}" PARENT_SCOPE)
-                return()
-            endif()
-            if(TARGET "${_up}::${_up_lower}_${_bare}")
-                set(${OUT_VAR} "${_up}::${_up_lower}_${_bare}" PARENT_SCOPE)
                 return()
             endif()
 
