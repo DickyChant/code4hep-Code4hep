@@ -34,6 +34,9 @@ c4h_register_upstream(Stitched)
 find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
 set_property(GLOBAL PROPERTY C4H_EXT_FOUND_Python3 TRUE)
 
+# Set output directories
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+
 # Optional clang-tidy — enable with: cmake -DC4H_ENABLE_TIDY=ON
 option(C4H_ENABLE_TIDY "Enable clang-tidy for all targets" OFF)
 if(C4H_ENABLE_TIDY)
