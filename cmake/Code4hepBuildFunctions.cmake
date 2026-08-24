@@ -66,14 +66,6 @@ endfunction()
 # (ROOT, TBB, Boost, Eigen3, CLHEP, …) works with the default rule.
 # ---------------------------------------------------------------------------
 
-# All plugin .so files must land in a single flat directory so that
-# edmPluginRefresh (which requires all its arguments to share one directory)
-# can process them.  Override at cmake time with -DC4H_PLUGIN_OUTPUT_DIR=...
-if(NOT DEFINED C4H_PLUGIN_OUTPUT_DIR)
-    set(C4H_PLUGIN_OUTPUT_DIR "${CMAKE_BINARY_DIR}/edmplugin"
-        CACHE PATH "Output directory for all edmplugin shared libraries")
-endif()
-
 # Built-in find_package() overrides — set once at include time.
 get_property(_c4h_ext_init GLOBAL PROPERTY C4H_EXT_INIT SET)
 if(NOT _c4h_ext_init)
@@ -363,8 +355,6 @@ endfunction()
 #   file(GLOB _srcs CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/*.cc)
 #   stitched_generate_plugin(TARGET plugin_Foo SOURCES ${_srcs}
 #       LINK_LIBRARIES Stitched::stitched_FWCore_Framework podio::podio)  # [*] DEPS resolved
-#   set_target_properties(plugin_Foo PROPERTIES
-#       LIBRARY_OUTPUT_DIRECTORY ${C4H_PLUGIN_OUTPUT_DIR})
 #
 # stitched_generate_plugin (in Stitched's StitchedMacros.cmake) is the part that
 # makes this a "plugin": it sets the edmplugin prefix, runs edmWriteConfigs, and
@@ -404,11 +394,6 @@ function(c4h_add_plugin)
         TARGET         "${_target}"
         SOURCES        ${_sources}
         LINK_LIBRARIES ${_resolved_deps} ${_resolved_ext_deps}
-    )
-
-    # All plugin .so files must share one directory for edmPluginRefresh.
-    set_target_properties(${_target} PROPERTIES
-        LIBRARY_OUTPUT_DIRECTORY "${C4H_PLUGIN_OUTPUT_DIR}"
     )
 
     set_property(GLOBAL APPEND PROPERTY C4H_PLUGIN_TARGETS "${_target}")
