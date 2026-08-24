@@ -23,10 +23,6 @@ include("${CMAKE_SOURCE_DIR}/cmake/Code4hepBuildFunctions.cmake")
 # correctly: in-tree to bare PodioUtilities, installed to Code4hep::PodioUtilities.
 c4h_register_upstream(Code4hep)
 
-# pybind11 must be found before Stitched: StitchedTargets.cmake references
-# pybind11::pybind11 but StitchedConfig.cmake does not find_dependency(pybind11).
-find_package(pybind11 REQUIRED)
-
 # Stitched is the mandatory upstream framework.
 # Its targets (Stitched::FWCore_*, etc.) are needed for DEPS shorthand resolution.
 find_package(Stitched REQUIRED)
