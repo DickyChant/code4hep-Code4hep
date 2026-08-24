@@ -49,9 +49,6 @@ enable_testing()
 # subdirectory that has a CMakeLists.txt — no manual listing needed.
 add_subdirectory(Code4hep)
 
-# Plugin cache refresh — after all subdirectories so C4H_PLUGIN_TARGETS is complete.
-c4h_generate_plugincache()
-
 # clang-format target — after all subdirectories so C4H_ALL_SOURCES is complete.
 c4h_add_format_target()
 

@@ -474,43 +474,6 @@ function(c4h_add_executable)
 endfunction()
 
 # ---------------------------------------------------------------------------
-# 4. c4h_generate_plugincache  (OPTIONAL convenience)
-#
-# Wraps stitched_generate_plugincache (StitchedMacros.cmake).
-# Automatically uses the C4H_PLUGIN_TARGETS global property accumulated by
-# all c4h_add_plugin calls — no manual enumeration needed.
-#
-# Call once in the top-level CMakeLists.txt after all add_subdirectory() calls.
-#
-# ≡ PLAIN CMAKE. Equivalent to calling stitched_generate_plugincache() yourself
-# with the explicit list of every plugin target:
-#
-#   stitched_generate_plugincache(
-#       PLUGIN_TARGETS plugin_Foo plugin_Bar ...   # all plugins, listed by hand
-#       OUTPUT_DIR ${C4H_PLUGIN_OUTPUT_DIR}
-#       CACHE_TARGET_NAME RefreshPluginCache)
-#
-# The only thing the wrapper adds is collecting that list automatically (via the
-# C4H_PLUGIN_TARGETS global property that c4h_add_plugin appends to).
-# ---------------------------------------------------------------------------
-function(c4h_generate_plugincache)
-    get_property(_plugin_targets GLOBAL PROPERTY C4H_PLUGIN_TARGETS)
-    if(NOT _plugin_targets)
-        message(FATAL_ERROR
-            "c4h_generate_plugincache: No plugin targets registered. "
-            "Ensure c4h_add_plugin() has been called before this function.")
-    endif()
-
-    # Delegates to Stitched: stitched_generate_plugincache in StitchedMacros.cmake.
-    # The output directory must match the plugins' LIBRARY_OUTPUT_DIRECTORY.
-    stitched_generate_plugincache(
-        PLUGIN_TARGETS    ${_plugin_targets}
-        OUTPUT_DIR        "${C4H_PLUGIN_OUTPUT_DIR}"
-        CACHE_TARGET_NAME "RefreshPluginCache"
-    )
-endfunction()
-
-# ---------------------------------------------------------------------------
 # 5. c4h_add_test  (OPTIONAL convenience)
 #
 # SCRAM equivalent: <test name="..." command="...">
