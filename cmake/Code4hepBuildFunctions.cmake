@@ -66,14 +66,6 @@ endfunction()
 # (ROOT, TBB, Boost, Eigen3, CLHEP, …) works with the default rule.
 # ---------------------------------------------------------------------------
 
-# All plugin .so files must land in a single flat directory so that
-# edmPluginRefresh (which requires all its arguments to share one directory)
-# can process them.  Override at cmake time with -DC4H_PLUGIN_OUTPUT_DIR=...
-if(NOT DEFINED C4H_PLUGIN_OUTPUT_DIR)
-    set(C4H_PLUGIN_OUTPUT_DIR "${CMAKE_BINARY_DIR}/edmplugin"
-        CACHE PATH "Output directory for all edmplugin shared libraries")
-endif()
-
 # Built-in find_package() overrides — set once at include time.
 get_property(_c4h_ext_init GLOBAL PROPERTY C4H_EXT_INIT SET)
 if(NOT _c4h_ext_init)
@@ -168,14 +160,10 @@ function(_c4h_resolve_dep DEP OUT_VAR)
             string(TOLOWER "${_up}"              _up_lower)
             string(TOLOWER "${_first_component}" _first_lower)
 
-            # Style A: subsystem-qualified — Upstream::First_Rest or Upstream::upstream_First_Rest
-            # (e.g. FWCore/Utilities → Stitched::stitched_FWCore_Utilities)
+            # Style A: subsystem-qualified — Upstream::First_Rest
+            # (e.g. FWCore/Utilities → Stitched::FWCore_Utilities)
             if(TARGET "${_up}::${_bare}")
                 set(${OUT_VAR} "${_up}::${_bare}" PARENT_SCOPE)
-                return()
-            endif()
-            if(TARGET "${_up}::${_up_lower}_${_bare}")
-                set(${OUT_VAR} "${_up}::${_up_lower}_${_bare}" PARENT_SCOPE)
                 return()
             endif()
 
@@ -367,8 +355,6 @@ endfunction()
 #   file(GLOB _srcs CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/*.cc)
 #   stitched_generate_plugin(TARGET plugin_Foo SOURCES ${_srcs}
 #       LINK_LIBRARIES Stitched::stitched_FWCore_Framework podio::podio)  # [*] DEPS resolved
-#   set_target_properties(plugin_Foo PROPERTIES
-#       LIBRARY_OUTPUT_DIRECTORY ${C4H_PLUGIN_OUTPUT_DIR})
 #
 # stitched_generate_plugin (in Stitched's StitchedMacros.cmake) is the part that
 # makes this a "plugin": it sets the edmplugin prefix, runs edmWriteConfigs, and
@@ -408,11 +394,6 @@ function(c4h_add_plugin)
         TARGET         "${_target}"
         SOURCES        ${_sources}
         LINK_LIBRARIES ${_resolved_deps} ${_resolved_ext_deps}
-    )
-
-    # All plugin .so files must share one directory for edmPluginRefresh.
-    set_target_properties(${_target} PROPERTIES
-        LIBRARY_OUTPUT_DIRECTORY "${C4H_PLUGIN_OUTPUT_DIR}"
     )
 
     set_property(GLOBAL APPEND PROPERTY C4H_PLUGIN_TARGETS "${_target}")
@@ -478,43 +459,6 @@ function(c4h_add_executable)
 endfunction()
 
 # ---------------------------------------------------------------------------
-# 4. c4h_generate_plugincache  (OPTIONAL convenience)
-#
-# Wraps stitched_generate_plugincache (StitchedMacros.cmake).
-# Automatically uses the C4H_PLUGIN_TARGETS global property accumulated by
-# all c4h_add_plugin calls — no manual enumeration needed.
-#
-# Call once in the top-level CMakeLists.txt after all add_subdirectory() calls.
-#
-# ≡ PLAIN CMAKE. Equivalent to calling stitched_generate_plugincache() yourself
-# with the explicit list of every plugin target:
-#
-#   stitched_generate_plugincache(
-#       PLUGIN_TARGETS plugin_Foo plugin_Bar ...   # all plugins, listed by hand
-#       OUTPUT_DIR ${C4H_PLUGIN_OUTPUT_DIR}
-#       CACHE_TARGET_NAME RefreshPluginCache)
-#
-# The only thing the wrapper adds is collecting that list automatically (via the
-# C4H_PLUGIN_TARGETS global property that c4h_add_plugin appends to).
-# ---------------------------------------------------------------------------
-function(c4h_generate_plugincache)
-    get_property(_plugin_targets GLOBAL PROPERTY C4H_PLUGIN_TARGETS)
-    if(NOT _plugin_targets)
-        message(FATAL_ERROR
-            "c4h_generate_plugincache: No plugin targets registered. "
-            "Ensure c4h_add_plugin() has been called before this function.")
-    endif()
-
-    # Delegates to Stitched: stitched_generate_plugincache in StitchedMacros.cmake.
-    # The output directory must match the plugins' LIBRARY_OUTPUT_DIRECTORY.
-    stitched_generate_plugincache(
-        PLUGIN_TARGETS    ${_plugin_targets}
-        OUTPUT_DIR        "${C4H_PLUGIN_OUTPUT_DIR}"
-        CACHE_TARGET_NAME "RefreshPluginCache"
-    )
-endfunction()
-
-# ---------------------------------------------------------------------------
 # 5. c4h_add_test  (OPTIONAL convenience)
 #
 # SCRAM equivalent: <test name="..." command="...">
@@ -522,7 +466,7 @@ endfunction()
 # directory.
 #
 #   NAME     Test name (required).
-#   COMMAND  Command to run (required). ${LOCALTOP} expands to CMAKE_SOURCE_DIR.
+#   COMMAND  Command to run (required).
 #   DEPS     Internal dependencies whose build directories are prepended to
 #            LD_LIBRARY_PATH so the test finds in-tree libraries at runtime.
 #
@@ -547,15 +491,8 @@ function(c4h_add_test)
         message(FATAL_ERROR "c4h_add_test: COMMAND is required.")
     endif()
 
-    # Substitute ${LOCALTOP} -> ${CMAKE_SOURCE_DIR}
-    set(_cmd)
-    foreach(_tok IN LISTS C4H_TST_COMMAND)
-        string(REPLACE "\${LOCALTOP}" "${CMAKE_SOURCE_DIR}" _tok "${_tok}")
-        list(APPEND _cmd "${_tok}")
-    endforeach()
-
     add_test(NAME "${C4H_TST_NAME}"
-        COMMAND ${_cmd}
+        COMMAND ${C4H_TST_COMMAND}
         WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     )
 

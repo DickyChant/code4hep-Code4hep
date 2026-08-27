@@ -23,10 +23,6 @@ include("${CMAKE_SOURCE_DIR}/cmake/Code4hepBuildFunctions.cmake")
 # correctly: in-tree to bare PodioUtilities, installed to Code4hep::PodioUtilities.
 c4h_register_upstream(Code4hep)
 
-# pybind11 must be found before Stitched: StitchedTargets.cmake references
-# pybind11::pybind11 but StitchedConfig.cmake does not find_dependency(pybind11).
-find_package(pybind11 REQUIRED)
-
 # Stitched is the mandatory upstream framework.
 # Its targets (Stitched::FWCore_*, etc.) are needed for DEPS shorthand resolution.
 find_package(Stitched REQUIRED)
@@ -37,6 +33,9 @@ c4h_register_upstream(Stitched)
 # (FindPython3 errors if re-invoked with COMPONENTS in a nested scope).
 find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
 set_property(GLOBAL PROPERTY C4H_EXT_FOUND_Python3 TRUE)
+
+# Set output directories
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 # Optional clang-tidy — enable with: cmake -DC4H_ENABLE_TIDY=ON
 option(C4H_ENABLE_TIDY "Enable clang-tidy for all targets" OFF)
@@ -52,9 +51,6 @@ enable_testing()
 # That file calls c4h_auto_subdirectories(), which picks up every package
 # subdirectory that has a CMakeLists.txt — no manual listing needed.
 add_subdirectory(Code4hep)
-
-# Plugin cache refresh — after all subdirectories so C4H_PLUGIN_TARGETS is complete.
-c4h_generate_plugincache()
 
 # clang-format target — after all subdirectories so C4H_ALL_SOURCES is complete.
 c4h_add_format_target()

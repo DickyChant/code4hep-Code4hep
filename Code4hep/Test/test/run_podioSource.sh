@@ -3,9 +3,8 @@
 # Pass in name and status
 function die { echo $1: status $2 ;  exit $2; }
 
-LOCAL_TEST_DIR="${CMSSW_BASE}/src/Code4hep/Test/test"
-F1=${LOCAL_TEST_DIR}/testPodioSource_cfg.py
-F2=${LOCAL_TEST_DIR}/testPodioSource2_cfg.py
+F1=testPodioSource_cfg.py
+F2=testPodioSource2_cfg.py
 
 # create an input file to use as input for the test
 createEDM4hepFile.py

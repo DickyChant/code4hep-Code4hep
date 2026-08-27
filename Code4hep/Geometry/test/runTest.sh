@@ -1,8 +1,13 @@
 #!/bin/bash
 
 # put included files in test directory
-export TEST_DIR=${LOCALTOP}/src/Code4hep/Geometry/test
-export DD4HEP_XML_DIR=$(scram tool tag dd4hep-core DD4HEP_CORE_BASE)/DDDetectors/compact
-ln -sf ${DD4HEP_XML_DIR}/elements.xml ${TEST_DIR}/
-ln -sf ${DD4HEP_XML_DIR}/materials.xml ${TEST_DIR}/
-cmsRun ${TEST_DIR}/testGeo.py
+echo $PWD
+export DD4HEP_XML_DIR=$(scram_tag dd4hep-core DD4HEP_CORE_BASE)/DDDetectors/compact
+ln -sf ${DD4HEP_XML_DIR}/elements.xml .
+ln -sf ${DD4HEP_XML_DIR}/materials.xml .
+C4H_DIR=$(readlink -f ${PWD}/../../../)
+INSTALL_DIR=$(readlink -f ${C4H_DIR}/../)
+# this is a very temporary hack around edm::FileInPath restrictions
+export CMSSW_SEARCH_PATH=${C4H_DIR}
+export CMSSW_BASE=${INSTALL_DIR}
+cmsRun testGeo.py

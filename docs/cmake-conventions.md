@@ -65,13 +65,13 @@ across the Stitched / Code4hep / experiment-specific repos. For example:
 
 | You write        | Resolves to (build tree)                     | Resolves to (installed)        |
 |------------------|----------------------------------------------|--------------------------------|
-| `FWCore/Utilities` | `Stitched::stitched_FWCore_Utilities`      | same                           |
+| `FWCore/Utilities` | `Stitched::FWCore_Utilities`               | same                           |
 | `Code4hep/PodioUtilities` | `PodioUtilities` (bare in-tree target) | `Code4hep::PodioUtilities`     |
 
 Plain CMake has no portable way to express "the right namespace depending on
 which repo provides this" — that is exactly the gap the shorthand fills. In
 plain CMake you would link the resolved target directly, e.g.
-`target_link_libraries(MyLib PUBLIC Stitched::stitched_FWCore_Utilities)`.
+`target_link_libraries(MyLib PUBLIC Stitched::FWCore_Utilities)`.
 
 To see how a shorthand resolves in your build, read the function's `≡ PLAIN
 CMAKE` block or run `cmake --trace-expand` and look for the
