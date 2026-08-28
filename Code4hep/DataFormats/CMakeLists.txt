@@ -10,5 +10,20 @@ c4h_add_library(
         Python3::Python
 )
 
-# Descend into child package directories (one add_subdirectory each).
-c4h_auto_subdirectories()
+# Shared dependencies inherited by all <library> elements in this file.
+set(_c4h_shared
+    DEPS
+        Code4hep/PodioUtilities
+    EXT_DEPS
+        podio::podio
+        podio::podioIO
+        EDM4HEP::edm4hep
+        Python3::Python
+)
+
+# <library name="Code4hepDataFormatsPlugins" file="*.cc"> (EDM_PLUGIN=1)
+c4h_add_plugin(
+    NAME Code4hepDataFormatsPlugins
+    SOURCES plugins/*.cc
+    ${_c4h_shared}
+)
