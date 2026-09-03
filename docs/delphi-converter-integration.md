@@ -15,6 +15,27 @@ framework boundary would make physics-equivalence failures impossible to
 localise. After the Code4hep boundary is covered by identity tests, SKELANA can
 be removed one domain at a time.
 
+## Build the first integration
+
+Check out both repositories next to one another, source the DELPHI environment
+before the Code4hep/Stitched environment, then configure Code4hep with the
+converter source directory:
+
+```sh
+source /cvmfs/delphi.cern.ch/setup.sh
+# Source the normal Code4hep/Stitched environment here.
+unset CXXFLAGS CFLAGS LDFLAGS
+
+cmake -S Code4hep -B build \
+  -DCODE4HEP_DELPHI_SOURCE_DIR="$PWD/delphi-edm4hep/delphi_edm4hep"
+cmake --build build -j
+ctest --test-dir build --output-on-failure
+```
+
+The resulting Code4hep build includes `delphi_sdst_pass`, `delphi_fdst_pass`,
+`delphi_bs_fit`, `delphi_btag_check`, and the converter tests. An empty
+`CODE4HEP_DELPHI_SOURCE_DIR` leaves the normal Code4hep build unchanged.
+
 ## Framework shape
 
 PHDST and the DELPHI Fortran packages use process-global COMMON blocks and are

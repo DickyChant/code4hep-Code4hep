@@ -52,6 +52,26 @@ enable_testing()
 # subdirectory that has a CMakeLists.txt — no manual listing needed.
 add_subdirectory(Code4hep)
 
+# Optional DELPHI legacy-DST converter.  Keep the converter in its own
+# repository for now (its licensing is still being clarified), but allow a
+# steering checkout to build it as part of the Code4hep tree.  The source path
+# is the directory containing delphi-edm4hep's CMakeLists.txt, normally
+# <checkout>/delphi_edm4hep.
+set(CODE4HEP_DELPHI_SOURCE_DIR "" CACHE PATH
+    "Path to the delphi-edm4hep CMake source directory")
+if(CODE4HEP_DELPHI_SOURCE_DIR)
+    get_filename_component(_c4h_delphi_source
+        "${CODE4HEP_DELPHI_SOURCE_DIR}" ABSOLUTE)
+    if(NOT EXISTS "${_c4h_delphi_source}/CMakeLists.txt")
+        message(FATAL_ERROR
+            "CODE4HEP_DELPHI_SOURCE_DIR='${_c4h_delphi_source}' does not "
+            "contain a CMakeLists.txt")
+    endif()
+    message(STATUS "Code4hep: enabling DELPHI converter from ${_c4h_delphi_source}")
+    add_subdirectory("${_c4h_delphi_source}"
+                     "${CMAKE_BINARY_DIR}/delphi_edm4hep")
+endif()
+
 # clang-format target — after all subdirectories so C4H_ALL_SOURCES is complete.
 c4h_add_format_target()
 
