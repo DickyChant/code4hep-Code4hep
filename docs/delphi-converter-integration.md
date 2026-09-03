@@ -18,8 +18,9 @@ be removed one domain at a time.
 ## Build the first integration
 
 Check out both repositories next to one another, source the DELPHI environment
-before the Code4hep/Stitched environment, then configure Code4hep with the
-converter source directory:
+before the normal Code4hep/Stitched environment, then configure Code4hep with
+the converter source directory. A separately sourced Key4hep stack is not
+required; Code4hep's EDM4hep, podio, and ROOT packages are used:
 
 ```sh
 source /cvmfs/delphi.cern.ch/setup.sh

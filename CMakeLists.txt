@@ -68,6 +68,14 @@ if(CODE4HEP_DELPHI_SOURCE_DIR)
             "contain a CMakeLists.txt")
     endif()
     message(STATUS "Code4hep: enabling DELPHI converter from ${_c4h_delphi_source}")
+    # Code4hep's environment provides EDM4hep, podio, and ROOT itself. The
+    # converter's standalone build normally requires the KEY4HEP_STACK marker
+    # to prevent accidental host-library mixing; that marker is neither set nor
+    # relevant here. Dependency version floors remain enforced by find_package.
+    if(NOT DEFINED KEY4HEP_STACK_REQUIRED)
+        set(KEY4HEP_STACK_REQUIRED OFF CACHE BOOL
+            "Require a sourced Key4hep stack for standalone converter builds")
+    endif()
     add_subdirectory("${_c4h_delphi_source}"
                      "${CMAKE_BINARY_DIR}/delphi_edm4hep")
 endif()
