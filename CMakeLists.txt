@@ -85,3 +85,9 @@ install(EXPORT Code4hepTargets
     NAMESPACE Code4hep::
     DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/Code4hep"
 )
+
+install(DIRECTORY ${CMAKE_BINARY_DIR}/python/
+    DESTINATION python
+    PATTERN "__pycache__" EXCLUDE
+    PATTERN "*.pyc" EXCLUDE
+)

@@ -12,5 +12,23 @@ c4h_add_library(
         HepMC3::HepMC3
 )
 
-# Subdirectories with their own CMakeLists.txt are picked up automatically.
-c4h_auto_subdirectories()
+# Shared dependencies inherited by all <library> elements in this file.
+set(_c4h_shared
+    DEPS
+        FWCore/Framework
+        FWCore/ParameterSet
+        FWCore/PluginManager
+        Code4hep/Generators
+    EXT_DEPS
+        Geant4::Geant4
+        Python3::Python
+        EDM4HEP::edm4hep
+)
+
+# <library name="Code4hepG4ApplicationPlugins" file="*.cc"> (EDM_PLUGIN=1)
+c4h_add_plugin(
+    NAME Code4hepG4ApplicationPlugins
+    SOURCES plugins/*.cc
+    DEPS Code4hep/G4Application
+    ${_c4h_shared}
+)

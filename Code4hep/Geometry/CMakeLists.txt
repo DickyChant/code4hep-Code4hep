@@ -12,5 +12,20 @@ c4h_add_library(
         ROOT::Geom
 )
 
-# Descend into child package directories (one add_subdirectory each).
-c4h_auto_subdirectories()
+# Shared dependencies inherited by all <library> elements in this file.
+set(_c4h_shared
+    DEPS
+        FWCore/Framework
+        FWCore/ParameterSet
+)
+
+# <library name="DetectorDescriptionPlugins" file="*.cc"> (EDM_PLUGIN=1)
+c4h_add_plugin(
+    NAME DetectorDescriptionPlugins
+    SOURCES plugins/*.cc
+    DEPS
+        Code4hep/Geometry
+        Code4hep/GeometryRecords
+    EXT_DEPS ROOT::Geom
+    ${_c4h_shared}
+)
