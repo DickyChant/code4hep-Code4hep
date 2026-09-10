@@ -10,8 +10,10 @@ class G4GDMLParser;
 class G4String;
 class G4VPhysicalVolume;
 class G4GlobalMagFieldMessenger;
+class G4UserLimits;
 
 #include <memory>
+#include <vector>
 
 namespace c4h {
 //---------------------------------------------------------------------------//
@@ -28,6 +30,7 @@ public:
 
 private:
   std::unique_ptr<G4GDMLParser> parser_;
+  std::vector<std::unique_ptr<G4UserLimits>> userLimits_;
   double magneticFieldTesla_;
 
   // Static data members

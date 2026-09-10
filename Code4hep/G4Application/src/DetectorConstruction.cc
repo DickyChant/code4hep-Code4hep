@@ -6,13 +6,18 @@
 #include "Code4hep/G4Application/TrackerSD.h"
 
 #include "G4GDMLParser.hh"
+#include "G4LogicalVolume.hh"
 #include "G4SDManager.hh"
+#include "G4UIcommand.hh"
+#include "G4UserLimits.hh"
 #include "G4VPhysicalVolume.hh"
 
 #include "G4AutoDelete.hh"
 #include "G4GlobalMagFieldMessenger.hh"
 #include "G4SystemOfUnits.hh"
 #include "G4ThreeVector.hh"
+
+#include <stdexcept>
 
 namespace c4h {
 G4ThreadLocal G4GlobalMagFieldMessenger *DetectorConstruction::fieldMessenger_ =
@@ -32,6 +37,24 @@ DetectorConstruction::DetectorConstruction(G4String gdmlFile,
 DetectorConstruction::~DetectorConstruction() { parser_.reset(); }
 
 G4VPhysicalVolume *DetectorConstruction::Construct() {
+  const auto *auxMap = parser_->GetAuxMap();
+  for (const auto &aux : *auxMap) {
+    for (const auto &setting : aux.second) {
+      if (setting.type != "StepLimit") {
+        continue;
+      }
+      const auto unit = setting.unit.empty()
+                            ? 1.0
+                            : G4UIcommand::ValueOf(setting.unit.c_str());
+      const auto maximumStep = std::stod(setting.value) * unit;
+      if (maximumStep <= 0) {
+        throw std::runtime_error("GDML StepLimit must be positive");
+      }
+      auto limits = std::make_unique<G4UserLimits>(maximumStep);
+      aux.first->SetUserLimits(limits.get());
+      userLimits_.push_back(std::move(limits));
+    }
+  }
   return parser_.get()->GetWorldVolume();
 }
 //---------------------------------------------------------------------------//
@@ -51,6 +74,12 @@ void DetectorConstruction::ConstructSDandField() {
       if (sd.value == "si_tracker_sd") {
         G4String name = (aux.first)->GetName();
         TrackerSD *tracker_sd = new TrackerSD(name);
+        sd_manager->AddNewDetector(tracker_sd);
+        (aux.first)->SetSensitiveDetector(tracker_sd);
+      }
+      if (sd.value == "step_tracker_sd") {
+        G4String name = (aux.first)->GetName();
+        TrackerSD *tracker_sd = new TrackerSD(name, false);
         sd_manager->AddNewDetector(tracker_sd);
         (aux.first)->SetSensitiveDetector(tracker_sd);
       }

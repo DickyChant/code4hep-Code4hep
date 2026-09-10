@@ -12,6 +12,7 @@
 #include "G4MTRunManagerKernel.hh"
 #include "G4PhysicalVolumeStore.hh"
 #include "G4StateManager.hh"
+#include "G4StepLimiterPhysics.hh"
 #include "G4UserRunAction.hh"
 
 #include "G4PhysListFactory.hh"
@@ -69,6 +70,7 @@ G4MasterInterface::G4MasterInterface(edm::ParameterSet const &p)
           G4Exception("main", "InvalidPhysicsList", FatalException,
                       ("Unknown physics list: " + physName_).c_str());
         }
+        physics->RegisterPhysics(new G4StepLimiterPhysics());
         runManagerMaster_->SetUserInitialization(physics);
 
         // Add a user detector construction

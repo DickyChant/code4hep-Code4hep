@@ -14,16 +14,14 @@
 class G4Step;
 class G4HCofThisEvent;
 
-namespace c4h
-{
+namespace c4h {
 //---------------------------------------------------------------------------//
 /*!
  * Example sensitive detector.
  */
-class TrackerSD : public G4VSensitiveDetector
-{
+class TrackerSD : public G4VSensitiveDetector {
 public:
-  TrackerSD(G4String name);
+  explicit TrackerSD(G4String name, bool mergeSteps = true);
   ~TrackerSD() = default;
 
   void Initialize(G4HCofThisEvent *) final;
@@ -32,6 +30,7 @@ public:
 private:
   G4int hcid_{-1};
   TrackerHitsCollection *collection_{nullptr};
+  bool mergeSteps_{true};
   std::unordered_map<std::uint64_t, TrackerHit *> hitByTrackAndCell_;
 };
 
