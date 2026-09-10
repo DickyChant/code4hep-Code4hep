@@ -62,14 +62,10 @@ process.testEventHeaderAnalyzer = cms.EDAnalyzer("c4h::TestEventHeaderAnalyzer",
 # read from an input file. There are several producers and
 # analyzers to hit the various combinations of those cases.
 
-# The initial input files are created by this script:
-#   https://github.com/key4hep/EDM4hep/blob/main/scripts/createEDM4hepFile.py
-# Note this script is in the EDM4hep repository, not in the
-# Code4hep repository. If the people who manage that repository
-# ever change it, then this test may fail and need to be updated.
+# The initial input files are created by create_test_edm4hep_file.py in this
+# directory, so their relation values are part of this test's own contract.
 
-# Links and relations point into collections in the initial file
-# from the EDM4hep script.
+# Links and relations point into collections in the initial fixture.
 process.testRelationsAndLinksProducer11 = cms.EDProducer("c4h::TestRelationsAndLinksProducer",
     tracks = cms.untracked.InputTag("TrackCollection"),
     mcParticles = cms.untracked.InputTag("MCParticleCollection"),
