@@ -7,6 +7,7 @@ c4h_add_library(
         FWCore/ParameterSet
     EXT_DEPS
         CLHEP::CLHEP
+        EDM4HEP::edm4hep
         XercesC::XercesC
         Geant4::Geant4
         HepMC3::HepMC3
@@ -32,3 +33,5 @@ c4h_add_plugin(
     DEPS Code4hep/G4Application
     ${_c4h_shared}
 )
+
+c4h_auto_subdirectories()

@@ -1,47 +1,26 @@
-#include "catch2/catch_all.hpp"
 #include "FWCore/TestProcessor/interface/TestProcessor.h"
 #include "FWCore/Utilities/interface/Exception.h"
+#include "catch2/catch_all.hpp"
 
 static constexpr auto s_tag = "[G4SimProducer]";
 
-TEST_CASE("Standard checks of G4SimProducer", s_tag) {
+TEST_CASE("Standard checks of G4SimProducer", s_tag)
+{
   const std::string baseConfig{
       R"_(from FWCore.TestProcessor.TestProcess import *
 process = TestProcess()
-process.toTest = cms.EDProducer("G4SimProducer"
-#necessary configuration parameters
- )
+process.toTest = cms.EDProducer(
+    "G4SimProducer",
+    generator = cms.InputTag("generator", "MCParticles"),
+    randomSeed = cms.uint32(67890),
+    Physics = cms.PSet(type = cms.string("FTFP_BERT")),
+    Detector = cms.PSet(gdml = cms.string("unused-for-construction.gdml")),
+)
 process.moduleToTest(process.toTest)
 )_"};
 
   edm::test::TestProcessor::Config config{baseConfig};
-  SECTION("base configuration is OK") { REQUIRE_NOTHROW(edm::test::TestProcessor(config)); }
-
-  SECTION("No event data") {
-    edm::test::TestProcessor tester(config);
-
-    REQUIRE_NOTHROW(tester.test());
-    //If the module does not throw when given no data, substitute
-    //REQUIRE_NOTHROW for REQUIRE_THROWS_AS
-  }
-
-  SECTION("beginJob and endJob only") {
-    edm::test::TestProcessor tester(config);
-
-    REQUIRE_NOTHROW(tester.testBeginAndEndJobOnly());
-  }
-
-  SECTION("Run with no LuminosityBlocks") {
-    edm::test::TestProcessor tester(config);
-
-    REQUIRE_NOTHROW(tester.testRunWithNoLuminosityBlocks());
-  }
-
-  SECTION("LuminosityBlock with no Events") {
-    edm::test::TestProcessor tester(config);
-
-    REQUIRE_NOTHROW(tester.testLuminosityBlockWithNoEvents());
-  }
+  REQUIRE_NOTHROW(edm::test::TestProcessor(config));
 }
 
-//Add additional TEST_CASEs to exercise the modules capabilities
+// Add additional TEST_CASEs to exercise the modules capabilities

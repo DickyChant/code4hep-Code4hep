@@ -1,14 +1,13 @@
 import FWCore.ParameterSet.Config as cms
+import os
 
 process = cms.Process("TEST")
 
 from FWCore.Modules.modules import EmptySource
 
-process.load('SimGeneral.HepPDTESSource.pythiapdt_cfi')
-
 process.source = EmptySource()
 
-process.maxEvents.input = 10
+process.maxEvents.input = int(os.environ.get("C4H_MAX_EVENTS", "10"))
 
 #Setup FWK for multithreaded
 process.options.numberOfThreads = 4
@@ -20,6 +19,7 @@ from Code4hep.Generators.modules import GenProducer
 process.gen = GenProducer(
     generatorType = cms.string("HepMC3Generator"),
     generator = cms.InputTag("MCParticles"),
+    initialSeed = cms.uint32(12345),
         Verbosity = cms.untracked.int32(0),
         PartID = cms.untracked.int32(13),
         MinPt = cms.double(10.0), ## the cut is in GeV 
@@ -31,16 +31,9 @@ process.gen = GenProducer(
 
 )
 
-process.RandomNumberGeneratorService = cms.Service(
-    "RandomNumberGeneratorService",
-    gen = cms.PSet(
-        initialSeed = cms.untracked.uint32(12345)
-    )
-)
-
 process.sim = G4SimProducer(
-    maxEvents = cms.int32(process.maxEvents.input.value()),
     generator = cms.InputTag("gen", "MCParticles"),
+    randomSeed = cms.uint32(67890),
     Physics = cms.PSet(
         type = cms.string('FTFP_BERT')
     ),
@@ -49,10 +42,19 @@ process.sim = G4SimProducer(
     )
 )
 
+process.output = cms.OutputModule(
+    "PodioOutputModule",
+    fileName = cms.untracked.string(
+        os.environ.get("C4H_OUTPUT", "hepmc3-sim.edm4hep.root")
+    ),
+)
+
 process.generation_step = cms.Path(process.gen)
 process.simulation_step = cms.Path(process.sim)
+process.output_step = cms.EndPath(process.output)
 
 process.schedule = cms.Schedule(
     process.generation_step,
-    process.simulation_step
+    process.simulation_step,
+    process.output_step,
 )

@@ -5,6 +5,14 @@
 c4h_add_executable(
     NAME testCode4hepG4SimProducerTP
     SOURCES test_catch2_*.cc
-    DEPS FWCore/TestProcessor
-    EXT_DEPS Catch2::Catch2
+    DEPS
+        Code4hep/G4Application
+        FWCore/TestProcessor
+    EXT_DEPS
+        Catch2::Catch2
+        EDM4HEP::edm4hep
+        Geant4::Geant4
 )
+
+add_test(NAME Code4hepG4ApplicationContracts
+         COMMAND bin_testCode4hepG4SimProducerTP)

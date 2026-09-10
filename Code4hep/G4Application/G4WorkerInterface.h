@@ -24,29 +24,28 @@ namespace c4h
 class G4WorkerInterface
 {
 public:
-  explicit G4WorkerInterface(int maxEvent);
+  G4WorkerInterface();
   ~G4WorkerInterface();
 
   // Process one G4 event using the worker run manager
-  G4Event* produce(G4Event* g4evt);
+  G4Event *produce(G4Event *g4evt, long randomSeed);
 
   // Worker thread index assigned at construction
   inline int getThreadIndex() const { return threadIndex_; }
 
   // Initialize the worker using the master Geant4 run manager
-  void initializeG4(G4MTRunManager* runManagerMaster);  
+  void initializeG4(G4MTRunManager *runManagerMaster);
 
   // Finalize the current run and call end-of-run actions
   void endRun();
 
 private:
   const int threadIndex_{-1};
-  int maxEvents_{};
   bool threadInitialized_{false};
-  std::unique_ptr<G4WorkerRunManager> workerRM_; 
-  G4Run* currentRun_{nullptr}; 
+  std::unique_ptr<G4WorkerRunManager> workerRM_;
+  G4Run *currentRun_{nullptr};
 };
 
 //---------------------------------------------------------------------------//
-}  // namespace c4h
+} // namespace c4h
 #endif

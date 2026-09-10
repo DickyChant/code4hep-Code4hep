@@ -8,6 +8,9 @@
 
 #include "G4VSensitiveDetector.hh"
 
+#include <cstdint>
+#include <unordered_map>
+
 class G4Step;
 class G4HCofThisEvent;
 
@@ -23,14 +26,15 @@ public:
   TrackerSD(G4String name);
   ~TrackerSD() = default;
 
-  void Initialize(G4HCofThisEvent*) final;
-  G4bool ProcessHits(G4Step*, G4TouchableHistory*) final;
+  void Initialize(G4HCofThisEvent *) final;
+  G4bool ProcessHits(G4Step *, G4TouchableHistory *) final;
 
 private:
   G4int hcid_{-1};
-  TrackerHitsCollection* collection_{nullptr};
+  TrackerHitsCollection *collection_{nullptr};
+  std::unordered_map<std::uint64_t, TrackerHit *> hitByTrackAndCell_;
 };
 
 //---------------------------------------------------------------------------//
-}  // namespace c4h
+} // namespace c4h
 #endif
