@@ -9,21 +9,20 @@
 #include "G4ThreeVector.hh"
 #include "G4VHit.hh"
 
-namespace c4h
-{
+namespace c4h {
 //---------------------------------------------------------------------------//
 /*!
  * Example tracker (sensitive) hit class.
  */
 
-class TrackerHit : public G4VHit
-{
+class TrackerHit : public G4VHit {
   using id_type = unsigned int;
 
 public:
   TrackerHit() : G4VHit() {}
-  TrackerHit(id_type id, G4int trackID, G4double energyDeposit, G4double time, G4double pathLength, G4ThreeVector pos,
-             G4ThreeVector momentum);
+  TrackerHit(id_type id, G4int trackID, G4int mcParticleIndex,
+             G4double energyDeposit, G4double time, G4double pathLength,
+             G4ThreeVector pos, G4ThreeVector momentum);
   ~TrackerHit() override;
 
   TrackerHit(const TrackerHit &) = default;
@@ -36,13 +35,13 @@ public:
   // Accessors
   inline id_type id() const { return id_; };
   inline G4int trackID() const { return trackID_; };
+  inline G4int mcParticleIndex() const { return mcParticleIndex_; };
   inline G4double energyDeposit() const { return energyDeposit_; };
   inline G4double time() const { return time_; };
   inline G4double pathLength() const { return pathLength_; };
   inline G4ThreeVector pos() const { return pos_; };
   inline G4ThreeVector momentum() const { return momentum_; };
-  inline void add(G4double energyDeposit, G4double pathLength)
-  {
+  inline void add(G4double energyDeposit, G4double pathLength) {
     energyDeposit_ += energyDeposit;
     pathLength_ += pathLength;
   }
@@ -50,6 +49,7 @@ public:
 private:
   id_type id_{0};
   G4int trackID_{0};
+  G4int mcParticleIndex_{-1};
   G4double energyDeposit_{0};
   G4double time_{0};
   G4double pathLength_{0};
@@ -66,10 +66,8 @@ extern G4ThreadLocal G4Allocator<TrackerHit> *TrackerHitAllocator;
 /*!
  * Use G4Allocator to allocate memory for a TrackerHit.
  */
-inline void *TrackerHit::operator new(size_t)
-{
-  if (!TrackerHitAllocator)
-  {
+inline void *TrackerHit::operator new(size_t) {
+  if (!TrackerHitAllocator) {
     TrackerHitAllocator = new G4Allocator<TrackerHit>;
   }
   return (void *)TrackerHitAllocator->MallocSingle();
@@ -79,7 +77,9 @@ inline void *TrackerHit::operator new(size_t)
 /*!
  * Use G4Allocator to release memory for a TrackerHit.
  */
-inline void TrackerHit::operator delete(void *hit) { TrackerHitAllocator->FreeSingle((TrackerHit *)hit); }
+inline void TrackerHit::operator delete(void *hit) {
+  TrackerHitAllocator->FreeSingle((TrackerHit *)hit);
+}
 
 //---------------------------------------------------------------------------//
 } // namespace c4h

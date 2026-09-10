@@ -19,6 +19,7 @@
 #include "Code4hep/G4Application/ThreadHandoff.h"
 #include "Code4hep/Generators/MCParticlesToG4.h"
 #include "Code4hep/IOUtilities/FrameParameterConversion.h"
+#include "Code4hep/PodioUtilities/setCollectionID.h"
 
 #include "G4Event.hh"
 #include <edm4hep/MCParticleCollection.h>
@@ -176,9 +177,12 @@ void G4SimProducer::produce(edm::Event &e, const edm::EventSetup &es) {
     m_workerInterface->produce(
         g4evt.get(),
         c4h::geantEventSeed(randomSeed_, e.id().run(), e.id().event()));
-    products = c4h::makeEventProducts(*g4evt);
+    products = c4h::makeEventProducts(*g4evt, genEvent);
   });
 
+  c4h::setCollectionID(*products.trackerHits, e, *this, trackerHitsToken_);
+  c4h::setCollectionID(*products.calorimeterHits, e, *this,
+                       calorimeterHitsToken_);
   e.emplace(trackerHitsToken_, std::move(*products.trackerHits));
   e.emplace(calorimeterHitsToken_, std::move(*products.calorimeterHits));
   e.emplace(magneticFieldToken_,

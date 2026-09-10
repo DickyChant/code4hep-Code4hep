@@ -3,27 +3,27 @@
 //---------------------------------------------------------------------------//
 #include "Code4hep/G4Application/TrackerHit.h"
 
-namespace c4h
-{
+namespace c4h {
 G4ThreadLocal G4Allocator<TrackerHit> *TrackerHitAllocator = nullptr;
 
 //---------------------------------------------------------------------------//
 /*!
  * Construct with hit data.
  */
-TrackerHit::TrackerHit(id_type id, G4int trackID, G4double energyDeposit, G4double time, G4double pathLength,
-                       G4ThreeVector pos, G4ThreeVector momentum)
-    : G4VHit(), id_(id), trackID_(trackID), energyDeposit_(energyDeposit), time_(time), pathLength_(pathLength),
-      pos_(pos), momentum_(momentum)
-{
-}
+TrackerHit::TrackerHit(id_type id, G4int trackID, G4int mcParticleIndex,
+                       G4double energyDeposit, G4double time,
+                       G4double pathLength, G4ThreeVector pos,
+                       G4ThreeVector momentum)
+    : G4VHit(), id_(id), trackID_(trackID), mcParticleIndex_(mcParticleIndex),
+      energyDeposit_(energyDeposit), time_(time), pathLength_(pathLength),
+      pos_(pos), momentum_(momentum) {}
 
 TrackerHit::~TrackerHit() {}
 
-const TrackerHit &TrackerHit::operator=(const TrackerHit &rhs)
-{
+const TrackerHit &TrackerHit::operator=(const TrackerHit &rhs) {
   id_ = rhs.id_;
   trackID_ = rhs.trackID_;
+  mcParticleIndex_ = rhs.mcParticleIndex_;
   energyDeposit_ = rhs.energyDeposit_;
   time_ = rhs.time_;
   pathLength_ = rhs.pathLength_;
@@ -32,7 +32,9 @@ const TrackerHit &TrackerHit::operator=(const TrackerHit &rhs)
   return *this;
 }
 
-G4bool TrackerHit::operator==(const TrackerHit &rhs) const { return (this == &rhs) ? true : false; }
+G4bool TrackerHit::operator==(const TrackerHit &rhs) const {
+  return (this == &rhs) ? true : false;
+}
 
 //---------------------------------------------------------------------------//
 } // namespace c4h

@@ -1,6 +1,7 @@
 #ifndef Code4hep_G4Application_EventProducts_h
 #define Code4hep_G4Application_EventProducts_h
 
+#include "edm4hep/MCParticleCollection.h"
 #include "edm4hep/SimCalorimeterHitCollection.h"
 #include "edm4hep/SimTrackerHitCollection.h"
 
@@ -17,7 +18,8 @@ struct EventProducts {
 
 // Copy Geant4's thread-local hit collections into framework-owned EDM4hep
 // collections before the G4Event is destroyed.
-EventProducts makeEventProducts(G4Event &event);
+EventProducts makeEventProducts(G4Event &event,
+                                const edm4hep::MCParticleCollection &particles);
 
 } // namespace c4h
 

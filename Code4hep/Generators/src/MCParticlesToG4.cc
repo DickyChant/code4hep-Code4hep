@@ -3,70 +3,61 @@
 //---------------------------------------------------------------------------//
 #include "Code4hep/Generators/MCParticlesToG4.h"
 
+#include "Code4hep/Generators/MCParticlePrimaryInfo.h"
+
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 
 #include "G4Event.hh"
+#include "G4ParticleTable.hh"
 #include "G4PrimaryParticle.hh"
 #include "G4PrimaryVertex.hh"
-#include "G4ParticleTable.hh"
 #include "G4SystemOfUnits.hh"
 
-namespace c4h
-{
+namespace c4h {
 //---------------------------------------------------------------------------//
-/* 
+/*
  * Convert an edm4hep::MCParticleCollection to a Geant4 event (G4Event).
  */
 std::unique_ptr<G4Event>
-MCParticlesToG4(const edm4hep::MCParticleCollection& mcParticles, int eventID)
-{
+MCParticlesToG4(const edm4hep::MCParticleCollection &mcParticles, int eventID) {
   auto g4event = std::make_unique<G4Event>(eventID);
 
   // Cache vertices by (x,y,z,t)
   // Optional optimization to reuse identical vertices
 
-  struct VertexKey
-  {
+  struct VertexKey {
     double x, y, z, t;
 
-    bool operator==(const VertexKey& other) const
-    {
+    bool operator==(const VertexKey &other) const {
       return x == other.x && y == other.y && z == other.z && t == other.t;
     }
   };
 
-  struct VertexKeyHash
-  {
-    std::size_t operator()(const VertexKey& k) const
-    {
-      return std::hash<double>()(k.x) ^
-	     std::hash<double>()(k.y) ^
-	     std::hash<double>()(k.z) ^
-	     std::hash<double>()(k.t);
+  struct VertexKeyHash {
+    std::size_t operator()(const VertexKey &k) const {
+      return std::hash<double>()(k.x) ^ std::hash<double>()(k.y) ^
+             std::hash<double>()(k.z) ^ std::hash<double>()(k.t);
     }
   };
-  
-  std::unordered_map<VertexKey, G4PrimaryVertex*, VertexKeyHash> vertexMap;
 
-  auto* particleTable = G4ParticleTable::GetParticleTable();  
+  std::unordered_map<VertexKey, G4PrimaryVertex *, VertexKeyHash> vertexMap;
 
-  for (const auto& p : mcParticles)
-  {
+  auto *particleTable = G4ParticleTable::GetParticleTable();
+
+  for (const auto &p : mcParticles) {
     // Select only stable final-state particles
-    if (!p.getGeneratorStatus())
-    {
+    if (!p.getGeneratorStatus()) {
       continue;
     }
-    
+
     // Lookup Geant4 particle definition
     int pdg = p.getPDG();
-    
-    auto* definition = particleTable->FindParticle(pdg);
 
-    if (!definition)
-    {
+    auto *definition = particleTable->FindParticle(pdg);
+
+    if (!definition) {
       edm::LogWarning("Code4hepGenerators")
-	<< "MCParticlesToG4: Unknown PDG ID: " << pdg;
+          << "MCParticlesToG4: Unknown PDG ID: " << pdg;
       // TODO: Refactor this loop to use an external decayer
       continue;
     }
@@ -84,26 +75,25 @@ MCParticlesToG4(const edm4hep::MCParticleCollection& mcParticles, int eventID)
     double vz = vtx.z;
 
     // Time: EDM4hep time is usually in ns
-    double vt = p.getTime();    
+    double vt = p.getTime();
 
-    // Create Geant4 primary particle    
-    auto* primaryParticle = new G4PrimaryParticle(definition, px, py, pz);
+    // Create Geant4 primary particle
+    auto *primaryParticle = new G4PrimaryParticle(definition, px, py, pz);
+    primaryParticle->SetUserInformation(
+        new MCParticlePrimaryInfo(p.getObjectID().index));
 
     // Reuse identical vertices if possible
     VertexKey key{vx, vy, vz, vt};
 
-    G4PrimaryVertex* primaryVertex = nullptr;
+    G4PrimaryVertex *primaryVertex = nullptr;
     auto it = vertexMap.find(key);
 
-    if (it == vertexMap.end())
-    {
-       primaryVertex = new G4PrimaryVertex(vx, vy, vz, vt);
-       vertexMap[key] = primaryVertex;
-       g4event->AddPrimaryVertex(primaryVertex);
-    }
-    else
-    {
-       primaryVertex = it->second;
+    if (it == vertexMap.end()) {
+      primaryVertex = new G4PrimaryVertex(vx, vy, vz, vt);
+      vertexMap[key] = primaryVertex;
+      g4event->AddPrimaryVertex(primaryVertex);
+    } else {
+      primaryVertex = it->second;
     }
 
     // Attach particle to vertex
@@ -111,7 +101,7 @@ MCParticlesToG4(const edm4hep::MCParticleCollection& mcParticles, int eventID)
   }
 
   return g4event;
-}  
+}
 
 //---------------------------------------------------------------------------//
-}  // namespace c4h
+} // namespace c4h

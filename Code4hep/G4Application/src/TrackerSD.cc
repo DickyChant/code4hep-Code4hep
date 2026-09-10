@@ -2,6 +2,7 @@
 //! \file Code4hep/G4Application/src/TrackerSD.cc
 //---------------------------------------------------------------------------//
 #include "Code4hep/G4Application/TrackerSD.h"
+#include "Code4hep/G4Application/TrackProvenance.h"
 
 #include "G4HCofThisEvent.hh"
 #include "G4SDManager.hh"
@@ -46,6 +47,11 @@ G4bool TrackerSD::ProcessHits(G4Step *step, G4TouchableHistory *) {
   auto pos = step->GetPreStepPoint()->GetPosition();
   auto momentum = step->GetPreStepPoint()->GetMomentum();
   auto trackID = step->GetTrack()->GetTrackID();
+  auto mcParticleIndex = -1;
+  if (const auto *information = dynamic_cast<const TrackInformation *>(
+          step->GetTrack()->GetUserInformation())) {
+    mcParticleIndex = information->mcParticleIndex();
+  }
   const auto key = (static_cast<std::uint64_t>(trackID) << 32U) |
                    static_cast<std::uint64_t>(id);
 
@@ -58,7 +64,8 @@ G4bool TrackerSD::ProcessHits(G4Step *step, G4TouchableHistory *) {
       return true;
     }
   }
-  auto *hit = new TrackerHit(id, trackID, step->GetTotalEnergyDeposit(), time,
+  auto *hit = new TrackerHit(id, trackID, mcParticleIndex,
+                             step->GetTotalEnergyDeposit(), time,
                              step->GetStepLength(), pos, momentum);
   collection_->insert(hit);
   if (mergeSteps_) {

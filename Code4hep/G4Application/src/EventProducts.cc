@@ -19,7 +19,9 @@ std::uint64_t cellID(std::size_t collectionIndex, unsigned int copyNumber) {
 
 } // namespace
 
-EventProducts makeEventProducts(G4Event &event) {
+EventProducts
+makeEventProducts(G4Event &event,
+                  const edm4hep::MCParticleCollection &particles) {
   EventProducts products{
       std::make_unique<edm4hep::SimTrackerHitCollection>(),
       std::make_unique<edm4hep::SimCalorimeterHitCollection>()};
@@ -44,6 +46,11 @@ EventProducts makeEventProducts(G4Event &event) {
             {static_cast<float>(source->momentum().x() / CLHEP::GeV),
              static_cast<float>(source->momentum().y() / CLHEP::GeV),
              static_cast<float>(source->momentum().z() / CLHEP::GeV)});
+        if (source->mcParticleIndex() >= 0 &&
+            static_cast<std::size_t>(source->mcParticleIndex()) <
+                particles.size()) {
+          hit.setParticle(particles[source->mcParticleIndex()]);
+        }
       }
     } else if (auto *calorimeter =
                    dynamic_cast<CalorimeterHitsCollection *>(collection)) {
