@@ -14,7 +14,9 @@
 
 #include <memory>
 
-#include "TypeNameConversion.h"
+#include "Code4hep/IOUtilities/TypeNameConversion.h"
+#include "Code4hep/IOUtilities/CollectionNameConversion.h"
+#include "Code4hep/IOUtilities/FrameParameterConversion.h"
 
 namespace c4h {
 
@@ -80,18 +82,25 @@ namespace c4h {
       edm::EDGetToken const& token = product.second;
       edm::BasicHandle bh = e.getByToken(token, tid);
 
-      std::string collectionName = product.first->moduleLabel() + product.first->productInstanceName();
+      std::string collectionName =
+          product.first->produced()
+              ? product.first->moduleLabel() + product.first->productInstanceName()
+              : productLabelToCollectionName(product.first->moduleLabel());
       if (bh.isValid()) {
         assert(bh.wrapper());
         auto collectionBase = converter->getCollection(*bh.wrapper());
         assert(collectionBase);
         auto copiedCollection = converter->copy(*const_cast<podio::CollectionBase*>(collectionBase));
         assert(copiedCollection);
-        frame.put(std::move(copiedCollection), collectionName);
+        if (!restoreFrameParameter(frame, collectionName, *copiedCollection)) {
+          frame.put(std::move(copiedCollection), collectionName);
+        }
       } else {
         //Data product is missing, but we MUST include one
         auto empty = converter->createEmpty();
-        frame.put(std::move(empty), collectionName);
+        if (!restoreFrameParameter(frame, collectionName, *empty)) {
+          frame.put(std::move(empty), collectionName);
+        }
       }
     }
     if (not haveEventHeader) {

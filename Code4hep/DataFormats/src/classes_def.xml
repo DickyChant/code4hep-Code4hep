@@ -30,6 +30,7 @@
 
 <class name="edm::Wrapper<podio::UserDataCollection<int32_t>>" persistent="false"/>
 <class name="edm::Wrapper<podio::UserDataCollection<float>>" persistent="false"/>
+<class name="edm::Wrapper<podio::UserDataCollection<double>>" persistent="false"/>
 
 <class name="podio::LinkCollection<edm4hep::CalorimeterHit,edm4hep::MCParticle>"/>
 <class name="podio::LinkCollection<edm4hep::CalorimeterHit,edm4hep::SimCalorimeterHit>"/>

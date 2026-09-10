@@ -116,6 +116,17 @@ function(_c4h_auto_find_package namespace)
             set_target_properties("${_tgt}" PROPERTIES IMPORTED_GLOBAL TRUE)
         endif()
     endforeach()
+
+    # Geant4's package exports its component targets but no aggregate
+    # Geant4::Geant4 target. Code4hep packages use the aggregate spelling, so
+    # provide the conventional interface target from the package variables.
+    if("${namespace}" STREQUAL "Geant4" AND NOT TARGET Geant4::Geant4)
+        add_library(Geant4::Geant4 INTERFACE IMPORTED GLOBAL)
+        set_target_properties(Geant4::Geant4 PROPERTIES
+            INTERFACE_INCLUDE_DIRECTORIES "${Geant4_INCLUDE_DIRS}"
+            INTERFACE_LINK_LIBRARIES "${Geant4_LIBRARIES}"
+        )
+    endif()
 endfunction()
 
 # ---------------------------------------------------------------------------

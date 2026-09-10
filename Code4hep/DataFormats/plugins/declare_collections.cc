@@ -6,6 +6,9 @@
 C4H_COLLECTION(podio::UserDataCollection<float>);
 C4H_CONTAINED_CLASS(podio::UserDataCollection<float>, float);
 
+C4H_COLLECTION(podio::UserDataCollection<double>);
+C4H_CONTAINED_CLASS(podio::UserDataCollection<double>, double);
+
 C4H_COLLECTION(podio::UserDataCollection<int32_t>);
 C4H_CONTAINED_CLASS(podio::UserDataCollection<int32_t>, int32_t);
 

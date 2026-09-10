@@ -38,7 +38,6 @@ process.moduleToTest(process.out)
 process = TestSourceProcess()
 process.source = cms.Source("PodioSource", fileNames = cms.untracked.vstring(''))
 process.add_(cms.Service("InitRootHandlers"))
-process.add_(cms.Service("SiteLocalConfigService"))
 process.add_(cms.Service("JobReportService"))
     )_"};
 

@@ -5,8 +5,9 @@
 #include "edm4hep/EventHeaderCollection.h"
 #include "podio/CollectionBase.h"
 
-#include "fillProductRegistry.h"
-#include "putOnReadForAllProducts.h"
+#include "Code4hep/IOUtilities/fillProductRegistry.h"
+#include "Code4hep/IOUtilities/FrameParameterConversion.h"
+#include "Code4hep/IOUtilities/putOnReadForAllProducts.h"
 #include "PodioFile.h"
 
 #include "DataFormats/Provenance/interface/EventAuxiliary.h"
@@ -59,6 +60,7 @@ namespace c4h {
     // from the collections available in the first event
     std::size_t eventIndex = 0;
     frame_ = podioReader_->readFrame("events", eventIndex);
+    c4h::materializeFrameParameters(frame_);
     eventIndexOfOpenFrame_ = eventIndex;
 
     auto productRegistry = c4h::fillProductRegistry(frame_, processNameForInputProducts, ignoreMissingOnFirstEvent);
@@ -84,6 +86,7 @@ namespace c4h {
 
       if (nextEventIndex_ != eventIndexOfOpenFrame_) {
         frame_ = podioReader_->readFrame("events", nextEventIndex_);
+        c4h::materializeFrameParameters(frame_);
         eventIndexOfOpenFrame_ = nextEventIndex_;
       }
       auto const& eventHeaderCollection = frame_.get<edm4hep::EventHeaderCollection>("EventHeader");

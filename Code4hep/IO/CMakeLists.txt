@@ -3,6 +3,8 @@
 # Shared dependencies inherited by all <library> elements in this file.
 set(_c4h_shared
     DEPS
+        Code4hep/DataFormats
+        Code4hep/IOUtilities
         FWCore/Framework
         Code4hep/PodioUtilities
     EXT_DEPS
@@ -12,9 +14,32 @@ set(_c4h_shared
         Python3::Python
 )
 
+# Reusable bridge between a podio::Frame and Stitched's ProductRegistry /
+# EventPrincipal.  PodioSource uses it for files, while native experiment
+# sources (such as DELPHI's PHDST source) use it for frames built in memory.
+c4h_add_library(
+    NAME IOUtilities
+    SOURCES ../IOUtilities/src/*.cc
+    DEPS
+        FWCore/Framework
+        Code4hep/PodioUtilities
+    EXT_DEPS
+        podio::podio
+        Python3::Python
+)
+install(DIRECTORY ../IOUtilities/
+    DESTINATION include/Code4hep/IOUtilities
+    FILES_MATCHING PATTERN "*.h"
+)
+
 # <library name="Code4hepIOPlugins" file="*.cc"> (EDM_PLUGIN=1)
 c4h_add_plugin(
     NAME Code4hepIOPlugins
-    SOURCES plugins/*.cc
+    SOURCES
+        plugins/PodioFile.cc
+        plugins/PodioOutputModule.cc
+        plugins/PodioSource.cc
     ${_c4h_shared}
 )
+
+c4h_auto_subdirectories()
