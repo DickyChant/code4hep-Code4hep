@@ -35,7 +35,10 @@ makeEventProducts(G4Event &event,
     if (auto *tracker = dynamic_cast<TrackerHitsCollection *>(collection)) {
       for (const auto *source : *tracker->GetVector()) {
         auto hit = products.trackerHits->create();
-        hit.setCellID(cellID(index, source->id()));
+        hit.setCellID(
+            source->explicitCellID()
+                ? source->id()
+                : cellID(index, static_cast<unsigned int>(source->id())));
         hit.setEDep(static_cast<float>(source->energyDeposit() / CLHEP::GeV));
         hit.setTime(static_cast<float>(source->time() / CLHEP::ns));
         hit.setPathLength(static_cast<float>(source->pathLength() / CLHEP::mm));

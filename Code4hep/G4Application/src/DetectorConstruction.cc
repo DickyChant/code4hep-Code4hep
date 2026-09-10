@@ -17,7 +17,11 @@
 #include "G4SystemOfUnits.hh"
 #include "G4ThreeVector.hh"
 
+#include <cstdint>
+#include <limits>
+#include <optional>
 #include <stdexcept>
+#include <string>
 
 namespace c4h {
 G4ThreadLocal G4GlobalMagFieldMessenger *DetectorConstruction::fieldMessenger_ =
@@ -66,29 +70,58 @@ void DetectorConstruction::ConstructSDandField() {
   G4SDManager *sd_manager = G4SDManager::GetSDMpointer();
   const G4GDMLAuxMapType *aux_map = parser_.get()->GetAuxMap();
   for (auto &aux : *aux_map) {
-    for (auto const &sd : aux.second) {
-      if (sd.type != "SensDet") {
-        continue;
+    std::string sensitiveDetector;
+    std::optional<std::uint64_t> cellIDBase;
+    for (const auto &setting : aux.second) {
+      if (setting.type == "SensDet") {
+        if (!sensitiveDetector.empty()) {
+          throw std::runtime_error(
+              "GDML logical volume has multiple SensDet settings");
+        }
+        sensitiveDetector = setting.value;
+      } else if (setting.type == "CellIDBase") {
+        if (cellIDBase.has_value()) {
+          throw std::runtime_error(
+              "GDML logical volume has multiple CellIDBase settings");
+        }
+        std::size_t consumed{};
+        try {
+          cellIDBase = std::stoull(setting.value, &consumed, 0);
+        } catch (const std::exception &) {
+          throw std::runtime_error("GDML CellIDBase is not an integer");
+        }
+        if (consumed != setting.value.size() ||
+            (*cellIDBase & std::numeric_limits<std::uint32_t>::max()) != 0) {
+          throw std::runtime_error(
+              "GDML CellIDBase must reserve its low 32 bits for copy number");
+        }
       }
+    }
+    if (sensitiveDetector.empty()) {
+      if (cellIDBase.has_value()) {
+        throw std::runtime_error(
+            "GDML CellIDBase requires a SensDet on the same logical volume");
+      }
+      continue;
+    }
 
-      if (sd.value == "si_tracker_sd") {
-        G4String name = (aux.first)->GetName();
-        TrackerSD *tracker_sd = new TrackerSD(name);
-        sd_manager->AddNewDetector(tracker_sd);
-        (aux.first)->SetSensitiveDetector(tracker_sd);
+    const G4String name = aux.first->GetName();
+    if (sensitiveDetector == "si_tracker_sd") {
+      auto *trackerSD = new TrackerSD(name, true, cellIDBase);
+      sd_manager->AddNewDetector(trackerSD);
+      aux.first->SetSensitiveDetector(trackerSD);
+    } else if (sensitiveDetector == "step_tracker_sd") {
+      auto *trackerSD = new TrackerSD(name, false, cellIDBase);
+      sd_manager->AddNewDetector(trackerSD);
+      aux.first->SetSensitiveDetector(trackerSD);
+    } else if (sensitiveDetector == "em_calorimeter_sd") {
+      if (cellIDBase.has_value()) {
+        throw std::runtime_error(
+            "GDML CellIDBase is currently supported only for tracker hits");
       }
-      if (sd.value == "step_tracker_sd") {
-        G4String name = (aux.first)->GetName();
-        TrackerSD *tracker_sd = new TrackerSD(name, false);
-        sd_manager->AddNewDetector(tracker_sd);
-        (aux.first)->SetSensitiveDetector(tracker_sd);
-      }
-      if (sd.value == "em_calorimeter_sd") {
-        G4String name = (aux.first)->GetName();
-        CalorimeterSD *calor_sd = new CalorimeterSD(name);
-        sd_manager->AddNewDetector(calor_sd);
-        (aux.first)->SetSensitiveDetector(calor_sd);
-      }
+      auto *calorimeterSD = new CalorimeterSD(name);
+      sd_manager->AddNewDetector(calorimeterSD);
+      aux.first->SetSensitiveDetector(calorimeterSD);
     }
   }
 

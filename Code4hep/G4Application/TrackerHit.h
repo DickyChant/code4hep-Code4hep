@@ -9,6 +9,8 @@
 #include "G4ThreeVector.hh"
 #include "G4VHit.hh"
 
+#include <cstdint>
+
 namespace c4h {
 //---------------------------------------------------------------------------//
 /*!
@@ -16,13 +18,14 @@ namespace c4h {
  */
 
 class TrackerHit : public G4VHit {
-  using id_type = unsigned int;
+  using id_type = std::uint64_t;
 
 public:
   TrackerHit() : G4VHit() {}
   TrackerHit(id_type id, G4int trackID, G4int mcParticleIndex,
              G4double energyDeposit, G4double time, G4double pathLength,
-             G4ThreeVector pos, G4ThreeVector momentum);
+             G4ThreeVector pos, G4ThreeVector momentum,
+             bool explicitCellID = false);
   ~TrackerHit() override;
 
   TrackerHit(const TrackerHit &) = default;
@@ -34,6 +37,7 @@ public:
 
   // Accessors
   inline id_type id() const { return id_; };
+  inline bool explicitCellID() const { return explicitCellID_; };
   inline G4int trackID() const { return trackID_; };
   inline G4int mcParticleIndex() const { return mcParticleIndex_; };
   inline G4double energyDeposit() const { return energyDeposit_; };
@@ -48,6 +52,7 @@ public:
 
 private:
   id_type id_{0};
+  bool explicitCellID_{false};
   G4int trackID_{0};
   G4int mcParticleIndex_{-1};
   G4double energyDeposit_{0};

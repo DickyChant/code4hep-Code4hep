@@ -67,6 +67,22 @@ TEST_CASE("Geant4 hits become EDM4hep event products", "[G4SimProducer]") {
   REQUIRE(calorimeterHit.getPosition().x == Catch::Approx(9.0));
 }
 
+TEST_CASE("explicit GDML tracker cell IDs survive event conversion",
+          "[G4SimProducer]") {
+  G4Event event{8};
+  auto *eventHits = new G4HCofThisEvent{1};
+  auto *tracker = new c4h::TrackerHitsCollection{"tracker", "tracker_HC"};
+  constexpr std::uint64_t cellID = 0x120000070000002aULL;
+  tracker->insert(
+      new c4h::TrackerHit{cellID, 1, -1, 0.0, 0.0, 0.0, {}, {}, true});
+  eventHits->AddHitsCollection(0, tracker);
+  event.SetHCofThisEvent(eventHits);
+
+  edm4hep::MCParticleCollection particles;
+  const auto products = c4h::makeEventProducts(event, particles);
+  REQUIRE(products.trackerHits->at(0).getCellID() == cellID);
+}
+
 TEST_CASE("Geant4 event seeds are stable and event-specific",
           "[G4SimProducer]") {
   constexpr auto first = c4h::geantEventSeed(67890, 1, 1);

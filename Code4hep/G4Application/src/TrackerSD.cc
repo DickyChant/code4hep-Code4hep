@@ -14,9 +14,10 @@ namespace c4h {
 /*!
  * Construct with sensitive detector name.
  */
-TrackerSD::TrackerSD(G4String name, bool mergeSteps)
+TrackerSD::TrackerSD(G4String name, bool mergeSteps,
+                     std::optional<std::uint64_t> cellIDBase)
     : G4VSensitiveDetector(name), hcid_(-1), collection_(nullptr),
-      mergeSteps_(mergeSteps) {
+      mergeSteps_(mergeSteps), cellIDBase_(cellIDBase) {
   G4String HCname = name + "_HC";
   collectionName.insert(HCname);
 }
@@ -42,7 +43,9 @@ void TrackerSD::Initialize(G4HCofThisEvent *hce) {
 G4bool TrackerSD::ProcessHits(G4Step *step, G4TouchableHistory *) {
   // Get hit data for this sensitive detector
   auto touchable = step->GetPreStepPoint()->GetTouchable();
-  unsigned int id = touchable->GetVolume()->GetCopyNo();
+  const auto copyNumber =
+      static_cast<std::uint32_t>(touchable->GetVolume()->GetCopyNo());
+  const auto id = cellIDBase_.value_or(0) | copyNumber;
   auto time = step->GetPreStepPoint()->GetGlobalTime();
   auto pos = step->GetPreStepPoint()->GetPosition();
   auto momentum = step->GetPreStepPoint()->GetMomentum();
@@ -52,8 +55,7 @@ G4bool TrackerSD::ProcessHits(G4Step *step, G4TouchableHistory *) {
           step->GetTrack()->GetUserInformation())) {
     mcParticleIndex = information->mcParticleIndex();
   }
-  const auto key = (static_cast<std::uint64_t>(trackID) << 32U) |
-                   static_cast<std::uint64_t>(id);
+  const auto key = std::pair{trackID, id};
 
   // Merge steps from one particle inside one sensor, but never merge distinct
   // tracks: downstream digitizers need both occupancy and total path length.
@@ -64,9 +66,9 @@ G4bool TrackerSD::ProcessHits(G4Step *step, G4TouchableHistory *) {
       return true;
     }
   }
-  auto *hit = new TrackerHit(id, trackID, mcParticleIndex,
-                             step->GetTotalEnergyDeposit(), time,
-                             step->GetStepLength(), pos, momentum);
+  auto *hit = new TrackerHit(
+      id, trackID, mcParticleIndex, step->GetTotalEnergyDeposit(), time,
+      step->GetStepLength(), pos, momentum, cellIDBase_.has_value());
   collection_->insert(hit);
   if (mergeSteps_) {
     hitByTrackAndCell_.emplace(key, hit);
