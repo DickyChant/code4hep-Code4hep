@@ -3,7 +3,10 @@
 #include "Code4hep/IOUtilities/CollectionNameConversion.h"
 #include "Code4hep/IOUtilities/FrameParameterConversion.h"
 #include "podio/Frame.h"
+#include "podio/UserDataCollection.h"
 
+#include <cstdint>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -36,4 +39,18 @@ TEST_CASE("Frame parameters survive framework materialization", "[FrameParameter
   REQUIRE(output.getParameter<std::vector<double>>("double_key") == std::vector<double>{3.125, -9.5});
   REQUIRE(output.getParameter<std::vector<std::string>>("string_key") ==
           std::vector<std::string>{"94C2", "", "a_b"});
+}
+
+TEST_CASE("Framework producers can name new Frame parameters", "[FrameParameters]") {
+  const auto name = c4h::frameParameterCollectionName('I', "native_EVT_nCharged");
+  REQUIRE(c4h::isFrameParameterCollectionName(name));
+  REQUIRE(name.find('_') == std::string::npos);
+
+  podio::Frame output;
+  podio::UserDataCollection<int32_t> value{{20}};
+  REQUIRE(c4h::restoreFrameParameter(output, name, value));
+  REQUIRE(output.getParameter<int>("native_EVT_nCharged") == 20);
+
+  REQUIRE_THROWS_AS(c4h::frameParameterCollectionName('X', "bad"),
+                    std::invalid_argument);
 }

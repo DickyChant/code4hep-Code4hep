@@ -1,6 +1,7 @@
 #ifndef Code4Hep_IOUtilities_FrameParameterConversion_h
 #define Code4Hep_IOUtilities_FrameParameterConversion_h
 
+#include <string>
 #include <string_view>
 
 namespace podio {
@@ -9,6 +10,14 @@ namespace podio {
 }
 
 namespace c4h {
+  // Return the reserved podio collection name used to carry a Frame parameter
+  // through the framework product registry. `type` is I, F, D, or S.
+  // Producers may use this as their product instance name; PodioOutputModule
+  // strips the producer label and restores the named Frame parameter.
+  std::string frameParameterCollectionName(char type, std::string_view key);
+
+  bool isFrameParameterCollectionName(std::string_view name);
+
   // Framework events can carry podio collections but not Frame generic
   // parameters. Materialize every parameter as a reserved UserDataCollection
   // before filling the ProductRegistry.

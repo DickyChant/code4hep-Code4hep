@@ -82,10 +82,19 @@ namespace c4h {
       edm::EDGetToken const& token = product.second;
       edm::BasicHandle bh = e.getByToken(token, tid);
 
-      std::string collectionName =
-          product.first->produced()
-              ? product.first->moduleLabel() + product.first->productInstanceName()
-              : productLabelToCollectionName(product.first->moduleLabel());
+      std::string collectionName;
+      if (product.first->produced()) {
+        // A producer can publish a new Frame parameter by using the reserved
+        // materialized name as its product instance. Do not prepend the module
+        // label: restoreFrameParameter needs the reserved name verbatim.
+        collectionName = isFrameParameterCollectionName(
+                             product.first->productInstanceName())
+                             ? product.first->productInstanceName()
+                             : product.first->moduleLabel() +
+                                   product.first->productInstanceName();
+      } else {
+        collectionName = productLabelToCollectionName(product.first->moduleLabel());
+      }
       if (bh.isValid()) {
         assert(bh.wrapper());
         auto collectionBase = converter->getCollection(*bh.wrapper());

@@ -56,20 +56,13 @@ std::string decodeKey(std::string_view encoded) {
   return key;
 }
 
-std::string parameterCollectionName(char type, std::string_view key) {
-  std::string name(marker);
-  name.push_back(type);
-  name.append(encodeKey(key));
-  return name;
-}
-
 template <typename T>
 void putParameterCollection(podio::Frame& frame,
                             std::unordered_set<std::string> const& collectionNames,
                             char type,
                             std::string const& key,
                             std::vector<T> values) {
-  const auto name = parameterCollectionName(type, key);
+  const auto name = frameParameterCollectionName(type, key);
   if (collectionNames.contains(name)) {
     throw std::invalid_argument("Podio collection name collides with reserved Frame parameter name '" + name + "'");
   }
@@ -136,6 +129,20 @@ std::vector<T> copyValues(podio::UserDataCollection<T> const& collection) {
 
 }  // namespace
 
+std::string frameParameterCollectionName(char type, std::string_view key) {
+  if (type != 'I' && type != 'F' && type != 'D' && type != 'S') {
+    throw std::invalid_argument("Podio Frame parameter type must be I, F, D, or S");
+  }
+  std::string name(marker);
+  name.push_back(type);
+  name.append(encodeKey(key));
+  return name;
+}
+
+bool isFrameParameterCollectionName(std::string_view name) {
+  return name.starts_with(marker) && name.size() > marker.size();
+}
+
 void materializeFrameParameters(podio::Frame& frame) {
   const auto available = frame.getAvailableCollections();
   const std::unordered_set<std::string> collectionNames(available.begin(), available.end());
@@ -171,7 +178,7 @@ void materializeFrameParameters(podio::Frame& frame) {
 bool restoreFrameParameter(podio::Frame& frame,
                            std::string_view collectionName,
                            podio::CollectionBase const& collection) {
-  if (!collectionName.starts_with(marker) || collectionName.size() <= marker.size()) return false;
+  if (!isFrameParameterCollectionName(collectionName)) return false;
 
   const char type = collectionName[marker.size()];
   const auto key = decodeKey(collectionName.substr(marker.size() + 1U));
