@@ -37,7 +37,8 @@ process.sim = G4SimProducer(
         type = cms.string('FTFP_BERT')
     ),
     Detector = cms.PSet(
-        gdml = cms.string('Code4hep/G4Application/test/simple-cms.gdml')
+        gdml = cms.string('Code4hep/G4Application/test/simple-cms.gdml'),
+        magneticFieldTesla = cms.double(0.1),
     )
 )
 

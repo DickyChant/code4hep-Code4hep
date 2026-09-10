@@ -14,7 +14,10 @@ process.toTest = cms.EDProducer(
     generator = cms.InputTag("generator", "MCParticles"),
     randomSeed = cms.uint32(67890),
     Physics = cms.PSet(type = cms.string("FTFP_BERT")),
-    Detector = cms.PSet(gdml = cms.string("unused-for-construction.gdml")),
+    Detector = cms.PSet(
+        gdml = cms.string("unused-for-construction.gdml"),
+        magneticFieldTesla = cms.double(1.2312434),
+    ),
 )
 process.moduleToTest(process.toTest)
 )_"};

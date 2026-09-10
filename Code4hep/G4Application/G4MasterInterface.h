@@ -14,8 +14,7 @@
 
 class G4MTRunManager;
 
-namespace c4h
-{
+namespace c4h {
 //---------------------------------------------------------------------------//
 /*!
  * Serves as the main entry point for the Geant4 multithreaded application
@@ -23,31 +22,29 @@ namespace c4h
  *
  * \note This class follows the same workflow as OscarMTMasterThread in CMSSW.
  */
-class G4MasterInterface
-{
+class G4MasterInterface {
 public:
-  explicit G4MasterInterface(edm::ParameterSet const& p);
+  explicit G4MasterInterface(edm::ParameterSet const &p);
   ~G4MasterInterface();
 
   void beginRun() const;
   void endRun() const;
   void stopThread();
 
-  inline G4MTRunManager& runManagerMaster() const 
-  { 
-    return *runManagerMaster_; 
-  }
+  inline G4MTRunManager &runManagerMaster() const { return *runManagerMaster_; }
 
-  inline G4MTRunManager* runManagerMasterPtr() const 
-  { 
+  inline G4MTRunManager *runManagerMasterPtr() const {
     return runManagerMaster_.get();
   }
 
-private:
+  double magneticFieldTesla() const { return magneticFieldTesla_; }
 
-  enum class ThreadState 
-  { 
-    NotExist = 0, BeginRun = 1, EndRun = 2, Destruct = 3 
+private:
+  enum class ThreadState {
+    NotExist = 0,
+    BeginRun = 1,
+    EndRun = 2,
+    Destruct = 3
   };
 
   std::shared_ptr<G4MTRunManager> runManagerMaster_;
@@ -67,8 +64,9 @@ private:
 
   std::string const gdmlFile_;
   std::string const physName_;
+  double const magneticFieldTesla_;
 };
 
 //---------------------------------------------------------------------------//
-}  // namespace c4h
+} // namespace c4h
 #endif
