@@ -4,7 +4,9 @@
 #include "Code4hep/Generators/Pythia8Generator.h"
 
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
+#include "FWCore/Utilities/interface/Exception.h"
 
+#include <string>
 #include <vector>
 
 namespace c4h
@@ -13,15 +15,26 @@ namespace c4h
 /*!
  * Construct from parameter set.
  */
-Pythia8Generator::Pythia8Generator(const edm::ParameterSet& p)
+Pythia8Generator::Pythia8Generator(const edm::ParameterSet &p)
 {
-  const auto& commands =
-      p.getParameter<std::vector<std::string>>("Pythia8Parameters");
+  const auto &commands = p.getParameter<std::vector<std::string>>("Pythia8Parameters");
 
-  for (const auto& cmd : commands)
+  for (const auto &cmd : commands)
   {
     edm::LogVerbatim("Code4hepGenerators") << "Pythia8Parameters: " << cmd;
     pythia_.readString(cmd);
+  }
+
+  // Pythia owns its random engine, so seed it from the same explicit module
+  // parameter used by the other Code4hep generators.
+  const auto seed = p.getParameter<unsigned int>("initialSeed");
+  if (seed > 900000000U)
+  {
+    throw cms::Exception("Configuration") << "Pythia8Generator initialSeed must not exceed 900000000";
+  }
+  if (!pythia_.readString("Random:setSeed = on") || !pythia_.readString("Random:seed = " + std::to_string(seed)))
+  {
+    throw cms::Exception("Configuration") << "Pythia8Generator could not configure its random seed";
   }
 
   pythia_.init();
@@ -31,7 +44,7 @@ Pythia8Generator::Pythia8Generator(const edm::ParameterSet& p)
 /*!
  * Generate a Pythia8 event and return edm::MCParticleCollection.
  */
-auto Pythia8Generator::operator()(CLHEP::HepRandomEngine*) -> UPMCParticle
+auto Pythia8Generator::operator()(CLHEP::HepRandomEngine *) -> UPMCParticle
 {
   auto particles = std::make_unique<edm4hep::MCParticleCollection>();
 
@@ -41,7 +54,7 @@ auto Pythia8Generator::operator()(CLHEP::HepRandomEngine*) -> UPMCParticle
     return particles;
   }
 
-  // Convert it to edm::MCParticleCollection. 
+  // Convert it to edm::MCParticleCollection.
   convertPythiaEvent(pythia_.event, *particles);
 
   return particles;
@@ -51,18 +64,17 @@ auto Pythia8Generator::operator()(CLHEP::HepRandomEngine*) -> UPMCParticle
 /*!
  * Convert a Pythia8 event to edm::MCParticleCollection.
  */
-void Pythia8Generator::convertPythiaEvent(const Pythia8::Event& event,
-                                      edm4hep::MCParticleCollection& particles)
+void Pythia8Generator::convertPythiaEvent(const Pythia8::Event &event, edm4hep::MCParticleCollection &particles)
 {
   const int nParticles = event.size();
-  
+
   std::vector<edm4hep::MutableMCParticle> edmParticles;
   edmParticles.reserve(nParticles);
 
   // First pass: create particles
   for (int i = 0; i < nParticles; ++i)
   {
-    const auto& p = event[i];
+    const auto &p = event[i];
     auto mc = particles.create();
 
     mc.setPDG(p.id());
@@ -78,7 +90,7 @@ void Pythia8Generator::convertPythiaEvent(const Pythia8::Event& event,
   // Second pass: establish relations
   for (int i = 0; i < nParticles; ++i)
   {
-    const auto& p = event[i];
+    const auto &p = event[i];
 
     auto mc = edmParticles[i];
 
@@ -110,4 +122,4 @@ void Pythia8Generator::convertPythiaEvent(const Pythia8::Event& event,
 }
 
 //---------------------------------------------------------------------------//
-}  // namespace c4h
+} // namespace c4h
